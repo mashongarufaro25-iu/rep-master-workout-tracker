@@ -1,0 +1,135 @@
+/*
+ *
+ * RepMaster Stylesheet
+ * This file controls the appearance of the RepMaster
+ * login page.
+ *
+ */
+
+/*
+   Page Styling
+ */
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    background-color: #f4f6f9;
+
+    display: flex;
+
+    justify-content: centre;
+
+    align-items: centre;
+
+    height: 100vh;
+
+    margin: 0;
+
+}
+/*
+   Login Card
+ */
+.container{
+
+    width: 350px
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+
+
+}
+
+
+/*
+   Main Heading
+*/
+h1 {
+
+    text-align: center;
+
+    color: #1f4e79;
+
+}
+
+h1:hover {
+
+    color: red;
+
+}
+/*
+   Paragraph
+*/
+p {
+
+    text-align: center;
+
+    color: gray;
+
+}
+/*
+   Labels
+ */
+label {
+
+    display: block;
+
+    margin-top: 15px;
+
+    font-weight: bold;
+
+}
+
+/*
+   Text Boxes
+ */
+input {
+
+    width: 100%;
+
+    padding: 10px;
+
+    margin-top: 5px;
+
+    box-sizing: border-box;
+
+}
+
+/*
+   Login Button
+ */
+button {
+
+    width: 100%;
+
+    margin-top: 20px;
+
+    padding: 12px;
+
+    background-color: #1f4e79;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+}
+
+/*
+   Button Hover Effect
+ */
+button:hover {
+
+    background-color: #163a5c;
+
+}
+
+
