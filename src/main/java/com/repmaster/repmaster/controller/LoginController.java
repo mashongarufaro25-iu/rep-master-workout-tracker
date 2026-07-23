@@ -1,5 +1,6 @@
 package com.repmaster.repmaster.controller;
 
+import com.repmaster.repmaster.dto.LoginRequest;
 import com.repmaster.repmaster.service.LoginService;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,16 +29,14 @@ public class LoginController {
     /**
      * Receives login information from the frontend.
      *
-     * @param username Username entered by the user.
-     * @param password Password entered by the user.
+     * @param loginRequest  entered by the user containing username and password.
+     *
      * @return Confirmation message.
      */
     @PostMapping("/login")
-    public String login(
-            @RequestParam String username,
-            @RequestParam String password) {
+    public String login(@RequestBody LoginRequest loginRequest) {
 
-        return loginService.login(username, password);
+        return loginService.login(loginRequest);
 
     }
 

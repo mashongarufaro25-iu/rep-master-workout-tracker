@@ -10,39 +10,38 @@ console.log("RepMaster loaded successfully.");
 /*
  * Login Button
  */
-
 const loginButton = document.getElementById("loginButton");
 
 if (loginButton) {
 
     loginButton.addEventListener("click", async function (event) {
 
-        // Prevent page refresh
         event.preventDefault();
 
-        // Read values from the text boxes
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
+        const loginRequest = {
+
+            username: username,
+            password: password
+
+        };
+
         try {
 
-            // Send the data to Spring Boot
             const response = await fetch("/api/login", {
 
                 method: "POST",
 
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
+                    "Content-Type": "application/json"
                 },
 
-                body: new URLSearchParams({
-                    username: username,
-                    password: password
-                })
+                body: JSON.stringify(loginRequest)
 
             });
 
-            // Read Spring Boot's reply
             const result = await response.text();
 
             alert(result);

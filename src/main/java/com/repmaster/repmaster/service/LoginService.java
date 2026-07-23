@@ -1,5 +1,6 @@
 package com.repmaster.repmaster.service;
 
+import com.repmaster.repmaster.dto.LoginRequest;
 import com.repmaster.repmaster.entity.User;
 import com.repmaster.repmaster.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -28,14 +29,21 @@ public class LoginService {
     /**
      * Checks whether a user can log in.
      *
-     * @param username User's username.
-     * @param password User's password.
+     * @param  loginRequest user info from the LoginRequest form
      * @return Login result.
      */
-    public String login(String username, String password) {
+    public String login(LoginRequest loginRequest) {
 
-        return "Login functionality coming soon.";
+        User user = userRepository.findByUsername(loginRequest.getUsername());
 
+        if (user == null) {
+            return "Invalid username or password.";
+        }
+
+        if (loginRequest.getPassword().equals(user.getPassword())) {
+            return "Login successful!";
+        }
+
+        return "Invalid username or password.";
     }
-
 }
