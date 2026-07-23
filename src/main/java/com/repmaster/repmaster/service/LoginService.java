@@ -26,19 +26,15 @@ public class LoginService {
     }
 
     /**
-     * Saves a user to the database.
+     * Checks whether a user can log in.
      *
      * @param username User's username.
      * @param password User's password.
-     * @return Confirmation message.
+     * @return Login result.
      */
     public String login(String username, String password) {
 
-        User user = new User(username, password);
-
-        userRepository.save(user);
-
-        return "User saved successfully!";
+        return "Login functionality coming soon.";
 
     }
 
