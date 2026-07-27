@@ -19,12 +19,12 @@ public class HomeController {
      * Redirects the user from the root URL
      * to the login page.
      *
-     * @return Redirects to index.html
+     * @return Redirects to login.html
      */
     @GetMapping("/")
     public String home() {
 
-        return "redirect:/index.html";
+        return "redirect:/login.html";
 
     }
 

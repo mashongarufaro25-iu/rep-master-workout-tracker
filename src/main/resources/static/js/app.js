@@ -44,7 +44,15 @@ if (loginButton) {
 
             const result = await response.text();
 
-            alert(result);
+            if (result === "Login successful!") {
+
+                window.location.href = "dashboard.html";
+
+            } else {
+
+                alert(result);
+
+            }
 
         } catch (error) {
 
@@ -112,6 +120,64 @@ if (registerButton) {
             alert("Registration failed.");
 
         }
+
+    });
+
+}
+
+/*
+ * Create workout  button
+ */
+
+const saveButton = document.getElementById("saveButton");
+
+if (saveButton) {
+
+    saveButton.addEventListener("click", async function (event) {
+
+            event.preventDefault();
+
+            const workoutName = document.getElementById("workoutName").value;
+            const targetMuscle = document.getElementById("targetMuscle").value;
+            const exercises = document.getElementById("exercises").value;
+            const sets = document.getElementById("sets").value;
+            const reps = document.getElementById("reps").value;
+
+
+
+
+            const workoutRequest = {
+                workoutName: workoutName,
+                targetMuscle: targetMuscle,
+                exercises: exercises,
+                sets: sets,
+                reps: reps,
+
+            };
+            try {
+
+                        const response = await fetch("/api/workout", {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify(workoutRequest)
+
+                        });
+
+                        const result = await response.text();
+
+                        alert(result);
+
+            } catch (error) {
+
+                        console.error(error);
+
+                        alert("Workout creation failed.");
+            }
 
     });
 
