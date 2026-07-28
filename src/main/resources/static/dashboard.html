@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RepMaster</title>
     <!-- Link to our stylesheet -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
 
@@ -16,74 +16,241 @@
 
     <!--  Header  -->
     <header>
+        <h1>RepMaster</h1>
 
+        <p>Train Smarter. Track Every Rep</p>
     </header>
 
-    <!--  Create Workout Form -->
-    <main>
+        <div class="home">
+            <p>Welcome Back!!.</p>
 
-        <form id="createWorkoutForm">
+            <p>What would you like to do today.</p>
 
-            <!-- workoutName -->
-            <label for="workoutName">Workout Name</label>
+            <div class="feature-grid">
 
-            <input
-                    type="text"
-                    id="workoutName"
-                    placeholder="Name of Workout"
-                    required>
+                    <!--  Create Workout button -->
+                    <button type="button" class="feature-card" id="createWorkoutButton">
 
-            <!-- Target Muscle -->
-            <label for="targetMuscle">Target Muscle</label>
+                        <h3>Create Workout</h3>
 
-            <input
-                    type="text"
-                    id="targetMuscle"
-                    placeholder="What is your target muscle"
-                    required>
+                        <p>Create and save a new workout.</p>
 
-            <!-- exercises -->
-            <label for="exercises"> Exercises</label>
+                    </button>
+                    <!--  View workouts button -->
+                    <button type="button" class="feature-card" id="myWorkoutsButton">
 
-            <input
-                    type="text"
-                    id="exercises"
-                    placeholder="Enter you exercises"
-                    required>
+                        <h3>My Workouts</h3>
 
+                        <p>View all your saved workouts.</p>
 
-            <!-- Sets -->
-            <label for="sets">Sets</label>
+                    </button>
+                    <!--  View current day's workouts -->
+                    <button type="button" class="feature-card" id="todayWorkoutButton">
 
-            <input
-                    type="number"
-                    id="sets"
-                    placeholder="Number of sets for all workouts"
-                    required>
+                        <h3>Today's Workout</h3>
 
+                        <p>See today's planned workout.</p>
 
-            <!-- Reps -->
-            <label for="reps">Reps</label>
+                    </button>
+                    <!--  Log workouts button -->
+                    <button type="button" class="feature-card" id="workoutLoggerButton">
 
-            <input
-                    type="number"
-                    id="reps"
-                    placeholder="Number of reps for all workouts"
-                    required>
+                        <h3>Workout Logger</h3>
+
+                        <p>Record completed workouts.</p>
+
+                    </button>
+                    <!--  View Workout History  -->
+                <button type="button" class="feature-card last-card" id="workoutHistoryButton">
+
+                        <h3>Workout History</h3>
+
+                        <p>Review your past training sessions.</p>
+
+                    </button>
 
 
+            </div>
 
-            <!-- Save Button -->
-            <button type="submit" id="saveButton">
 
-                Create Workout
 
-            </button>
+        </div>
 
-        </form>
+    <!-- ========================= -->
+    <!-- Dashboard -->
+    <!-- ========================= -->
+        <div class="dashboard">
 
-    </main>
+                <div class="sidebar">
 
+                    <h2>Navigation</h2>
+
+                    <!--  Home button -->
+                    <button type="button" id="homeButton">
+
+                        🏠 Home
+
+                    </button>
+
+                </div>
+
+            <div class="main-content">
+
+                <!-- ========================= -->
+                <!-- Create Workout Section -->
+                <!-- ========================= -->
+                <section id="createWorkoutSection">
+
+                    <div class="workout-card">
+
+                        <h2>Create Workout</h2>
+
+                        <p>Build your next training session.</p>
+
+                        <form id="createWorkoutForm">
+
+                            <!-- Workout Name -->
+                            <label for="workoutName">Workout Name</label>
+
+                            <input
+                                    type="text"
+                                    id="workoutName"
+                                    placeholder="Enter workout name"
+                                    required>
+
+                            <!-- Target Muscle -->
+                            <label for="targetMuscle">Target Muscle</label>
+
+                            <input
+                                    type="text"
+                                    id="targetMuscle"
+                                    placeholder="Enter target muscle"
+                                    required>
+
+                            <!-- Exercises -->
+                            <label for="exercises">Exercises</label>
+
+                            <input
+                                    type="text"
+                                    id="exercises"
+                                    placeholder="Enter exercises"
+                                    required>
+
+                            <!-- Sets and Reps -->
+                            <div class="form-row">
+
+                                <div>
+
+                                    <label for="sets">Sets</label>
+
+                                    <input
+                                            type="number"
+                                            id="sets"
+                                            placeholder="Sets"
+                                            required>
+
+                                </div>
+
+                                <div>
+
+                                    <label for="reps">Reps</label>
+
+                                    <input
+                                            type="number"
+                                            id="reps"
+                                            placeholder="Reps"
+                                            required>
+
+                                </div>
+
+                            </div>
+
+                            <button type="submit" id="saveButton">
+
+                                Create Workout
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- ========================= -->
+                <!-- My Workouts Section -->
+                <!-- ========================= -->
+
+                <section id="myWorkoutsSection" style="display:none;">
+
+                    <div class="workout-card">
+
+                        <h2>My Workouts</h2>
+
+                        <p>View all your saved workouts.</p>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- ========================= -->
+                <!-- Today's Workout Section -->
+                <!-- ========================= -->
+
+                <section id="todayWorkoutSection" style="display:none;">
+
+                    <div class="workout-card">
+
+                        <h2>Today's Workout</h2>
+
+                        <p>See today's planned workouts.</p>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- ========================= -->
+                <!-- Workout Logger Section -->
+                <!-- ========================= -->
+
+                <section id="loggerSection" style="display:none;">
+
+                    <div class="workout-card">
+
+                        <h2>Workout Logger</h2>
+
+                        <p>Record completed workouts.</p>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- ========================= -->
+                <!-- Workout History Section -->
+                <!-- ========================= -->
+
+                <section id="historySection" style="display:none;">
+
+                    <div class="workout-card">
+
+                        <h2>Workout History</h2>
+
+                        <p>Review your past training sessions.</p>
+
+                    </div>
+
+                </section>
+
+            </div>
+        </div>
 
 </div>
 
@@ -92,3 +259,4 @@
 
 </body>
 </html>
+

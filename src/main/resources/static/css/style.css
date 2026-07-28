@@ -18,9 +18,9 @@ body {
 
     display: flex;
 
-    justify-content: centre;
+    justify-content: center;
 
-    align-items: centre;
+    align-items: center;
 
     height: 100vh;
 
@@ -32,7 +32,7 @@ body {
  */
 .container{
 
-    width: 350px
+    width: 350px;
 
     background: white;
 
@@ -129,6 +129,49 @@ button {
 button:hover {
 
     background-color: #163a5c;
+
+}
+/*
+   Workout card
+ */
+.workout-card{
+
+    background-color: white;
+
+    max-width: 700px;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+}
+#createWorkoutForm{
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+#createWorkoutForm label{
+
+    margin-top: 15px;
+
+    margin-bottom: 5px;
+
+    font-weight: bold;
+
+}
+#createWorkoutForm input{
+
+    padding: 12px;
+
+    border-radius: 6px;
+
+    border: 1px solid #ccc;
+
+    font-size: 16px;
 
 }
 

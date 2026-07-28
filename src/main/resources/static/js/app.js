@@ -127,9 +127,35 @@ if (registerButton) {
 
 /*
  * Create workout  button
+ * And home button to allow return to home page
  */
 
+const home = document.querySelector(".home")
+const homeButton = document.getElementById("homeButton");
+const dashboard = document.querySelector(".dashboard");
+const createWorkoutButton = document.getElementById("createWorkoutButton");
+
+ if(createWorkoutButton){
+     createWorkoutButton.addEventListener("click", function(){
+               home.style.display = "none";
+               dashboard.style.display = "flex";
+     });
+ }
+ if (homeButton) {
+
+     homeButton.addEventListener("click", function () {
+
+         dashboard.style.display = "none";
+
+         home.style.display = "flex";
+
+     });
+
+ }
+
+
 const saveButton = document.getElementById("saveButton");
+
 
 if (saveButton) {
 
