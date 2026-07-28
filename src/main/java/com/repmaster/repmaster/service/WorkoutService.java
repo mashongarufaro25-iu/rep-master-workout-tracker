@@ -3,6 +3,7 @@ package com.repmaster.repmaster.service;
 import com.repmaster.repmaster.dto.WorkoutRequest;
 import com.repmaster.repmaster.entity.Workout;
 import com.repmaster.repmaster.repository.WorkoutRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
@@ -43,6 +44,16 @@ public class WorkoutService {
         workoutRepository.save(workout);
 
         return "Workout created successfully!";
+    }
+    /**
+     * Returns all saved workouts.
+     *
+     * @return List of workouts.
+     */
+    public List<Workout> getAllWorkouts() {
+
+        return workoutRepository.findAll();
+
     }
 
 }

@@ -134,13 +134,39 @@ const home = document.querySelector(".home")
 const homeButton = document.getElementById("homeButton");
 const dashboard = document.querySelector(".dashboard");
 const createWorkoutButton = document.getElementById("createWorkoutButton");
+const myWorkoutsButton = document.getElementById("myWorkoutsButton");
+const createWorkoutSection = document.getElementById("createWorkoutSection");
+const myWorkoutsSection = document.getElementById("myWorkoutsSection");
 
- if(createWorkoutButton){
-     createWorkoutButton.addEventListener("click", function(){
-               home.style.display = "none";
-               dashboard.style.display = "flex";
-     });
- }
+if (createWorkoutButton) {
+
+    createWorkoutButton.addEventListener("click", function () {
+
+        home.style.display = "none";
+
+        dashboard.style.display = "flex";
+
+        showSection(createWorkoutSection);
+
+    });
+
+}
+
+if (myWorkoutsButton) {
+
+    myWorkoutsButton.addEventListener("click", function () {
+
+        home.style.display = "none";
+
+        dashboard.style.display = "flex";
+
+        showSection(myWorkoutsSection);
+
+        loadWorkouts();
+
+    });
+
+}
  if (homeButton) {
 
      homeButton.addEventListener("click", function () {
@@ -150,6 +176,25 @@ const createWorkoutButton = document.getElementById("createWorkoutButton");
          home.style.display = "flex";
 
      });
+
+ }
+
+ /*
+  * Dashboard sections
+  */
+
+ function hideAllSections() {
+
+     createWorkoutSection.style.display = "none";
+     myWorkoutsSection.style.display = "none";
+
+ }
+
+ function showSection(section) {
+
+     hideAllSections();
+
+     section.style.display = "block";
 
  }
 
@@ -207,4 +252,57 @@ if (saveButton) {
 
     });
 
-}
+}// =====================================================
+ // Load all workouts from the database
+ // =====================================================
+
+ async function loadWorkouts() {
+
+     try {
+
+         const response = await fetch("/api/workouts");
+
+         const workouts = await response.json();
+
+         displayWorkouts(workouts);
+
+     } catch (error) {
+
+         console.error("Error loading workouts:", error);
+
+     }
+
+ }
+ // =====================================================
+ // Display workouts on the page
+ // =====================================================
+
+ function displayWorkouts(workouts) {
+
+     const workoutsContainer = document.getElementById("workoutsContainer");
+
+     workoutsContainer.innerHTML = "";
+
+     workouts.forEach(workout => {
+
+         workoutsContainer.innerHTML += `
+
+             <div class="workout-item">
+
+                 <h3>${workout.workoutName}</h3>
+
+                 <p><strong>Target Muscle:</strong> ${workout.targetMuscle}</p>
+
+                 <p><strong>Exercises:</strong> ${workout.exercises}</p>
+
+                 <p><strong>Sets:</strong> ${workout.sets}</p>
+
+                 <p><strong>Reps:</strong> ${workout.reps}</p>
+
+             </div>
+
+         `;
+
+     });
+
+ }

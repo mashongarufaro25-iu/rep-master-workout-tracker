@@ -253,3 +253,55 @@ header p{
 #saveButton:hover{
     background: #163b5c;
 }
+/* ===================================================== */
+/* MY WORKOUTS */
+/* ===================================================== */
+
+#workoutsContainer{
+
+    margin-top: 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+
+}
+
+
+/* Individual workout */
+
+.workout-item{
+
+    background: #f8f9fb;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+}
+
+
+/* Workout title */
+
+.workout-item h3{
+
+    color: #1f4e79;
+
+    margin-bottom: 15px;
+
+}
+
+
+/* Workout information */
+
+.workout-item p{
+
+    margin-bottom: 10px;
+
+    color: #444;
+
+}
