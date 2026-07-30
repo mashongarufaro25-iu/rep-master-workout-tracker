@@ -331,6 +331,13 @@ if (saveButton) {
 
                  </button>
 
+                 <button onclick="deleteWorkout(${workout.id})">
+
+                     🗑️ Delete
+
+                 </button>
+
+
              </div>
 
          `;
@@ -361,5 +368,45 @@ async function editWorkout(id) {
     showSection(createWorkoutSection);
 
     document.getElementById("saveButton").textContent = "Update Workout";
+
+}
+
+// =====================================================
+// Delete workout
+// =====================================================
+
+async function deleteWorkout(id) {
+
+    // Ask the user to confirm before deleting
+    const confirmed = confirm("Are you sure you want to delete this workout?");
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+    try {
+
+        const response = await fetch(`/api/workout/${id}`, {
+
+            method: "DELETE"
+
+        });
+
+        const result = await response.text();
+
+        alert(result);
+
+        // Reload the workouts so the deleted workout disappears
+        loadWorkouts();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Workout deletion failed.");
+
+    }
 
 }

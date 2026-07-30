@@ -86,6 +86,22 @@ public class WorkoutService {
         return "Workout updated successfully";
 
     }
+
+    /**
+     * Deletes a workout from the database.
+     *
+     * @param id The ID of the workout to delete.
+     * @return A success message if the workout was deleted successfully.
+     */
+    public String deleteWorkout(Long id) {
+
+        // Delete the workout with the given ID from the database
+        workoutRepository.deleteById(id);
+
+        // Return a success message
+        return "Workout deleted successfully";
+
+    }
     /**
      * Returns all saved workouts.
      *

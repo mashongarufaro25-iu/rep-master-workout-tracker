@@ -4,6 +4,7 @@ import com.repmaster.repmaster.dto.WorkoutRequest;
 import com.repmaster.repmaster.service.WorkoutService;
 import com.repmaster.repmaster.entity.Workout;
 import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,11 +46,31 @@ public class WorkoutController {
         return workoutService.createWorkout(request);
 
     }
+
+    /**
+     * Updates an existing workout.
+     *
+     * @param id the workout id.
+     * @param workout the workout object to be edited
+     * @return returns updated workout.
+     */
     @PutMapping("/workout/{id}")
     public String updateWorkout(@PathVariable Long id, @RequestBody Workout workout) {
 
-
         return workoutService.updateWorkout(id, workout);
+
+    }
+
+    /**
+     * Deletes an existing workout.
+     *
+     * @param id The ID of the workout to delete.
+     * @return A success message after the workout has been deleted.
+     */
+    @DeleteMapping("/workout/{id}")
+    public String deleteWorkout(@PathVariable Long id) {
+
+        return workoutService.deleteWorkout(id);
 
     }
 
