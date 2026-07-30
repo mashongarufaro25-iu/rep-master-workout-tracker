@@ -6,6 +6,8 @@ import com.repmaster.repmaster.entity.Workout;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,6 +45,14 @@ public class WorkoutController {
         return workoutService.createWorkout(request);
 
     }
+    @PutMapping("/workout/{id}")
+    public String updateWorkout(@PathVariable Long id, @RequestBody Workout workout) {
+
+
+        return workoutService.updateWorkout(id, workout);
+
+    }
+
     /**
      * Returns all saved workouts.
      *

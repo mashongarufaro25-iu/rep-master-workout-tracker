@@ -46,6 +46,47 @@ public class WorkoutService {
         return "Workout created successfully!";
     }
     /**
+     * Updates an existing workout in the database.
+     *
+     * @param id The ID of the workout to update.
+     * @param updatedWorkout The workout object containing the new values entered by the user.
+     * @return A success message if the workout was updated, or an error message if the workout was not found.
+     */
+    public String updateWorkout(Long id, Workout updatedWorkout) {
+
+        // Search the database for the workout with the given ID
+        Workout workout = workoutRepository.findById(id).orElse(null);
+
+        // Check if the workout exists
+        if (workout == null) {
+
+            return "Workout not found";
+
+        }
+
+        // Update the workout's name
+        workout.setWorkoutName(updatedWorkout.getWorkoutName());
+
+        // Update the target muscle
+        workout.setTargetMuscle(updatedWorkout.getTargetMuscle());
+
+        // Update the exercises
+        workout.setExercises(updatedWorkout.getExercises());
+
+        // Update the number of sets
+        workout.setSets(updatedWorkout.getSets());
+
+        // Update the number of repetitions
+        workout.setReps(updatedWorkout.getReps());
+
+        // Save the updated workout back to the database
+        workoutRepository.save(workout);
+
+        // Return a success message
+        return "Workout updated successfully";
+
+    }
+    /**
      * Returns all saved workouts.
      *
      * @return List of workouts.

@@ -137,6 +137,8 @@ const createWorkoutButton = document.getElementById("createWorkoutButton");
 const myWorkoutsButton = document.getElementById("myWorkoutsButton");
 const createWorkoutSection = document.getElementById("createWorkoutSection");
 const myWorkoutsSection = document.getElementById("myWorkoutsSection");
+let currentWorkoutId = null;
+let workoutList = [];
 
 if (createWorkoutButton) {
 
@@ -198,7 +200,7 @@ if (myWorkoutsButton) {
 
  }
 
-
+const createWorkoutForm = document.getElementById("createWorkoutForm");
 const saveButton = document.getElementById("saveButton");
 
 
@@ -225,30 +227,52 @@ if (saveButton) {
                 reps: reps,
 
             };
-            try {
+           try {
 
-                        const response = await fetch("/api/workout", {
+               let url = "/api/workout";
+               let method = "POST";
 
-                            method: "POST",
+               // If editing an existing workout, use PUT instead of POST
+               if (currentWorkoutId !== null) {
 
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
+                   url = `/api/workout/${currentWorkoutId}`;
+                   method = "PUT";
 
-                            body: JSON.stringify(workoutRequest)
+               }
 
-                        });
+               const response = await fetch(url, {
 
-                        const result = await response.text();
+                   method: method,
 
-                        alert(result);
+                   headers: {
+                       "Content-Type": "application/json"
+                   },
 
-            } catch (error) {
+                   body: JSON.stringify(workoutRequest)
 
-                        console.error(error);
+               });
 
-                        alert("Workout creation failed.");
-            }
+               const result = await response.text();
+
+               alert(result);
+
+               createWorkoutForm.reset();
+
+               currentWorkoutId = null;
+
+               document.getElementById("saveButton").textContent = "Create Workout";
+
+               loadWorkouts();
+
+               showSection(myWorkoutsSection);
+
+           } catch (error) {
+
+               console.error(error);
+
+               alert("Workout could not be saved.");
+
+           }
 
     });
 
@@ -263,6 +287,8 @@ if (saveButton) {
          const response = await fetch("/api/workouts");
 
          const workouts = await response.json();
+
+         workoutList = workouts;
 
          displayWorkouts(workouts);
 
@@ -299,6 +325,12 @@ if (saveButton) {
 
                  <p><strong>Reps:</strong> ${workout.reps}</p>
 
+                 <button onclick="editWorkout(${workout.id})">
+
+                     ✏️ Edit
+
+                 </button>
+
              </div>
 
          `;
@@ -306,3 +338,28 @@ if (saveButton) {
      });
 
  }
+ // =====================================================
+ // Edit workout
+ // =====================================================
+
+async function editWorkout(id) {
+
+    currentWorkoutId = id;
+
+    console.log("Editing workout:", currentWorkoutId);
+
+    const workout = workoutList.find(workout => workout.id === id);
+
+    console.log(workout);
+
+    document.getElementById("workoutName").value = workout.workoutName;
+    document.getElementById("targetMuscle").value = workout.targetMuscle;
+    document.getElementById("exercises").value = workout.exercises;
+    document.getElementById("sets").value = workout.sets;
+    document.getElementById("reps").value = workout.reps;
+
+    showSection(createWorkoutSection);
+
+    document.getElementById("saveButton").textContent = "Update Workout";
+
+}
