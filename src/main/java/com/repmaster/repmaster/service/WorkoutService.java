@@ -1,9 +1,14 @@
 package com.repmaster.repmaster.service;
 
+import com.repmaster.repmaster.entity.User;
+import com.repmaster.repmaster.repository.UserRepository;
 import com.repmaster.repmaster.dto.WorkoutRequest;
 import com.repmaster.repmaster.entity.Workout;
 import com.repmaster.repmaster.repository.WorkoutRepository;
 import java.util.List;
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +20,8 @@ public class WorkoutService {
      * Repository used to save workouts and their data.
      */
     private final WorkoutRepository  workoutRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Creates a WorkoutService.
@@ -33,6 +40,12 @@ public class WorkoutService {
      */
     public String createWorkout(WorkoutRequest request) {
 
+        User user = userRepository.findById(request.getUserId()).orElse(null);
+
+        if (user == null) {
+            return "User not found.";
+        }
+
         Workout workout = new Workout();
 
         workout.setWorkoutName(request.getWorkoutName());
@@ -40,6 +53,9 @@ public class WorkoutService {
         workout.setExercises(request.getExercises());
         workout.setSets(request.getSets());
         workout.setReps(request.getReps());
+
+        // Attach the owner
+        workout.setUser(user);
 
         workoutRepository.save(workout);
 
@@ -107,9 +123,15 @@ public class WorkoutService {
      *
      * @return List of workouts.
      */
-    public List<Workout> getAllWorkouts() {
+    public List<Workout> getAllWorkouts(Long userId) {
 
-        return workoutRepository.findAll();
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user == null) {
+            return new ArrayList<>();
+        }
+
+        return workoutRepository.findByUser(user);
 
     }
 

@@ -32,18 +32,18 @@ public class LoginService {
      * @param  loginRequest user info from the LoginRequest form
      * @return Login result.
      */
-    public String login(LoginRequest loginRequest) {
+    public User login(LoginRequest loginRequest) {
 
-        User user = userRepository.findByUsername(loginRequest.getUsername());
+            User user = userRepository.findByUsername(loginRequest.getUsername());
 
-        if (user == null) {
-            return "Invalid username or password.";
+            if (user == null) {
+                return null;
+            }
+
+            if (loginRequest.getPassword().equals(user.getPassword())) {
+                return user;
+            }
+
+            return null;
         }
-
-        if (loginRequest.getPassword().equals(user.getPassword())) {
-            return "Login successful!";
-        }
-
-        return "Invalid username or password.";
-    }
 }

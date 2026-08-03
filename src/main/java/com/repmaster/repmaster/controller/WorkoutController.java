@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Handles workout requests.
@@ -33,6 +34,8 @@ public class WorkoutController {
     public WorkoutController(WorkoutService workoutService) {
         this.workoutService = workoutService;
     }
+
+
 
     /**
      * Saves a new workout.
@@ -80,9 +83,9 @@ public class WorkoutController {
      * @return List of workouts.
      */
     @GetMapping("/workouts")
-    public List<Workout> getAllWorkouts() {
+    public List<Workout> getAllWorkouts(@RequestParam Long userId) {
 
-        return workoutService.getAllWorkouts();
+        return workoutService.getAllWorkouts(userId);
 
     }
 

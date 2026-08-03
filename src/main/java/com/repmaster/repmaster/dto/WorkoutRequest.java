@@ -32,6 +32,11 @@ public class WorkoutRequest {
     private Integer reps;
 
     /**
+     * ID of the user creating the workout.
+     */
+    private Long userId;
+
+    /**
      * Default constructor required by Spring.
      */
     public WorkoutRequest() {
@@ -60,6 +65,10 @@ public class WorkoutRequest {
         return reps;
     }
 
+    public Long getUserId() {  return userId; }
+
+
+
 
     // Setters
 
@@ -83,4 +92,8 @@ public class WorkoutRequest {
     public void setReps(Integer reps) {
         this.reps = reps;
     }
+
+    public void setUserId(Long userId) { this.userId = userId;}
+
+
 }

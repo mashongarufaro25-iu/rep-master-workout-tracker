@@ -154,11 +154,27 @@ header p{
 /* ===================================================== */
 
 .main-content{
+
     flex: 1;
+
     display: flex;
-    justify-content: center;
+
+    justify-content: flex-start;
+
     align-items: flex-start;
+
     padding: 40px;
+
+}
+
+.main-content section{
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:center;
+
 }
 
 
@@ -167,91 +183,119 @@ header p{
 /* ===================================================== */
 
 .workout-card{
-    width: 100%;
-    max-width: 700px;
-    background: white;
-    padding: 35px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+    width:100%;
+
+    max-width:900px;
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:15px;
+
+    box-shadow:0 6px 15px rgba(0,0,0,0.12);
+
+    margin:0 auto;
+
 }
 
 .workout-card h2{
-    color: #1f4e79;
-    margin-bottom: 10px;
+
+    color:#1f4f82;
+
+    margin-bottom:8px;
+
+    font-size:32px;
+
 }
 
 .workout-card p{
-    color: #666;
-    margin-bottom: 25px;
+
+    color:#666;
+
+    margin-bottom:25px;
+
 }
 
-
 /* ===================================================== */
-/* FORM */
+/* FORMS */
 /* ===================================================== */
 
-#createWorkoutForm{
-    display: flex;
-    flex-direction: column;
+#createWorkoutForm,
+#workoutLoggerForm{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
 }
 
+#createWorkoutForm label,
+#workoutLoggerForm label{
 
-/* ===================================================== */
-/* LABELS */
-/* ===================================================== */
+    font-weight:bold;
 
-#createWorkoutForm label{
-    margin-top: 15px;
-    margin-bottom: 6px;
-    font-weight: bold;
+    color:#1f4e79;
+
 }
 
+#createWorkoutForm input,
+#createWorkoutForm select,
+#createWorkoutForm textarea,
+#workoutLoggerForm input,
+#workoutLoggerForm select,
+#workoutLoggerForm textarea{
 
-/* ===================================================== */
-/* INPUTS */
-/* ===================================================== */
+    width:100%;
 
-#createWorkoutForm input{
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 15px;
+    padding:14px;
+
+    border:1px solid #d6d6d6;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+    transition:.25s;
+
 }
 
+#createWorkoutForm input:focus,
+#createWorkoutForm select:focus,
+#createWorkoutForm textarea:focus,
+#workoutLoggerForm input:focus,
+#workoutLoggerForm select:focus,
+#workoutLoggerForm textarea:focus{
 
-/* ===================================================== */
-/* SETS & REPS ROW */
-/* ===================================================== */
+    outline:none;
+
+    border-color:#1f4e79;
+
+    box-shadow:0 0 8px rgba(31,78,121,.2);
+
+}
+
+#workoutLoggerForm textarea{
+
+    resize:vertical;
+
+}
 
 .form-row{
-    display: flex;
-    gap: 20px;
+
+    display:flex;
+
+    gap:20px;
+
 }
 
 .form-row div{
-    flex: 1;
-}
 
+    flex:1;
 
-/* ===================================================== */
-/* BUTTON */
-/* ===================================================== */
-
-#saveButton{
-    width: 220px;
-    margin: 30px auto 0;
-    padding: 12px;
-    background: #1f4e79;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-#saveButton:hover{
-    background: #163b5c;
 }
 /* ===================================================== */
 /* MY WORKOUTS */
@@ -297,11 +341,188 @@ header p{
 
 
 /* Workout information */
+.workout-item{
+
+    background:white;
+
+    border-left:6px solid #1f4e79;
+
+    border-radius:12px;
+
+    padding:22px;
+
+    margin-top:20px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+
+}
+
+.workout-item h3{
+
+    color:#1f4e79;
+
+    margin-bottom:15px;
+
+}
 
 .workout-item p{
 
-    margin-bottom: 10px;
+    margin:8px 0;
 
-    color: #444;
+    color:#444;
+
+}
+
+
+/* ==========================================
+   Workout Logger
+========================================== */
+
+#workoutLoggerForm{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+#workoutLoggerForm label{
+
+    font-weight:bold;
+
+    color:#1f4f82;
+
+}
+
+#workoutLoggerForm input,
+#workoutLoggerForm select,
+#workoutLoggerForm textarea{
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #ccc;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+    box-sizing:border-box;
+
+}
+
+#workoutLoggerForm textarea{
+
+    resize:vertical;
+
+}
+
+#saveButton,
+#saveLogButton{
+
+    width:100%;
+
+    margin-top:15px;
+
+    padding:14px;
+
+    background:#1f4e79;
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    transition:.25s;
+
+}
+
+#saveButton:hover,
+#saveLogButton:hover{
+
+    background:#163b5c;
+
+    transform:translateY(-2px);
+
+}
+/* ===========================
+   Coming Soon Modal
+=========================== */
+
+.modal {
+
+    display: none;
+    position: fixed;
+    z-index: 1000;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.5);
+
+}
+
+.modal-content {
+
+    background: white;
+
+    width: 400px;
+
+    margin: 12% auto;
+
+    padding: 30px;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+
+}
+
+.modal-content h2 {
+
+    color: #1f4d7a;
+
+    margin-bottom: 15px;
+
+}
+
+.modal-content p {
+
+    margin-bottom: 20px;
+
+}
+
+.modal-content button {
+
+    background: #1f4d7a;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 25px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+}
+
+.modal-content button:hover {
+
+    background: #173b5d;
 
 }

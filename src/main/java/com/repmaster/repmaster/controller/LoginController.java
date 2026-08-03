@@ -1,7 +1,9 @@
 package com.repmaster.repmaster.controller;
 
 import com.repmaster.repmaster.dto.LoginRequest;
+import com.repmaster.repmaster.entity.User;
 import com.repmaster.repmaster.service.LoginService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -34,9 +36,15 @@ public class LoginController {
      * @return Confirmation message.
      */
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
 
-        return loginService.login(loginRequest);
+        User user = loginService.login(loginRequest);
+
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        }
+
+        return ResponseEntity.badRequest().body("Invalid username or password.");
 
     }
 

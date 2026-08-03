@@ -42,17 +42,27 @@ if (loginButton) {
 
             });
 
-            const result = await response.text();
+            if (response.ok) {
 
-            if (result === "Login successful!") {
+                const user = await response.json();
+
+                console.log("User object:", user);
+                console.log("First name:", user.firstName);
+
+                localStorage.setItem("userId", user.id);
+                localStorage.setItem("userName", user.firstName);
 
                 window.location.href = "dashboard.html";
 
             } else {
 
-                alert(result);
+                const message = await response.text();
+
+                alert(message);
 
             }
+
+
 
         } catch (error) {
 
@@ -125,11 +135,6 @@ if (registerButton) {
 
 }
 
-/*
- * Create workout  button
- * And home button to allow return to home page
- */
-
 const home = document.querySelector(".home")
 const homeButton = document.getElementById("homeButton");
 const dashboard = document.querySelector(".dashboard");
@@ -137,9 +142,19 @@ const createWorkoutButton = document.getElementById("createWorkoutButton");
 const myWorkoutsButton = document.getElementById("myWorkoutsButton");
 const createWorkoutSection = document.getElementById("createWorkoutSection");
 const myWorkoutsSection = document.getElementById("myWorkoutsSection");
+const workoutLoggerButton = document.getElementById("workoutLoggerButton");
+const loggerSection = document.getElementById("loggerSection");
+const todayWorkoutSection = document.getElementById("todayWorkoutSection");
+const historySection = document.getElementById("historySection");
+const workoutLoggerForm = document.getElementById("workoutLoggerForm");
+const saveLogButton = document.getElementById("saveLogButton");
 let currentWorkoutId = null;
 let workoutList = [];
 
+/*
+ * Create workout  button
+ * And home button to allow return to home page
+ */
 if (createWorkoutButton) {
 
     createWorkoutButton.addEventListener("click", function () {
@@ -168,7 +183,57 @@ if (myWorkoutsButton) {
 
     });
 
+
 }
+/*
+ * Today's Workout button
+ */
+const todayWorkoutButton = document.getElementById("todayWorkoutButton");
+
+if (todayWorkoutButton) {
+
+    todayWorkoutButton.addEventListener("click", function () {
+
+        showComingSoonModal();
+
+    });
+
+}
+
+/*
+ * Workout History button
+ */
+const workoutHistoryButton = document.getElementById("workoutHistoryButton");
+
+if (workoutHistoryButton) {
+
+    workoutHistoryButton.addEventListener("click", function () {
+
+        showComingSoonModal();
+
+    });
+
+}
+
+if (workoutLoggerButton) {
+
+    workoutLoggerButton.addEventListener("click", function () {
+
+        home.style.display = "none";
+
+        dashboard.style.display = "flex";
+
+        showSection(loggerSection);
+
+        loadWorkoutNames();
+
+        loadWorkoutLogs();
+
+    });
+
+}
+
+
  if (homeButton) {
 
      homeButton.addEventListener("click", function () {
@@ -199,6 +264,14 @@ if (myWorkoutsButton) {
      section.style.display = "block";
 
  }
+ const userName = localStorage.getItem("userName");
+
+ if (userName) {
+
+     document.getElementById("welcomeMessage").textContent =
+         `Welcome back, ${userName}!`;
+
+ }
 
 const createWorkoutForm = document.getElementById("createWorkoutForm");
 const saveButton = document.getElementById("saveButton");
@@ -219,14 +292,17 @@ if (saveButton) {
 
 
 
-            const workoutRequest = {
-                workoutName: workoutName,
-                targetMuscle: targetMuscle,
-                exercises: exercises,
-                sets: sets,
-                reps: reps,
+           const workoutRequest = {
 
-            };
+               userId: localStorage.getItem("userId"),
+
+               workoutName: workoutName,
+               targetMuscle: targetMuscle,
+               exercises: exercises,
+               sets: sets,
+               reps: reps
+
+           };
            try {
 
                let url = "/api/workout";
@@ -279,26 +355,69 @@ if (saveButton) {
 }// =====================================================
  // Load all workouts from the database
  // =====================================================
+async function loadWorkouts() {
 
- async function loadWorkouts() {
+    try {
 
-     try {
+        const userId = localStorage.getItem("userId");
 
-         const response = await fetch("/api/workouts");
+        const response = await fetch("/api/workouts?userId=" + userId);
 
-         const workouts = await response.json();
+        const workouts = await response.json();
 
-         workoutList = workouts;
+        workoutList = workouts;
 
-         displayWorkouts(workouts);
+        displayWorkouts(workouts);
 
-     } catch (error) {
+    } catch (error) {
 
-         console.error("Error loading workouts:", error);
+        console.error("Error loading workouts:", error);
 
-     }
+    }
 
- }
+}
+
+ // =====================================================
+ // Load workouts into logger dropdown
+ // =====================================================
+
+async function loadWorkoutNames() {
+
+    try {
+
+        const userId = localStorage.getItem("userId");
+
+        const response = await fetch("/api/workouts?userId=" + userId);
+
+        const workouts = await response.json();
+
+        const workoutDropdown = document.getElementById("logWorkoutName");
+
+        workoutDropdown.innerHTML = `
+            <option value="" selected disabled>
+                Select a workout
+            </option>
+        `;
+
+        workouts.forEach(workout => {
+
+            workoutDropdown.innerHTML += `
+                <option value="${workout.id}">
+                    ${workout.workoutName}
+                </option>
+            `;
+
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Could not load workouts.");
+
+    }
+
+}
  // =====================================================
  // Display workouts on the page
  // =====================================================
@@ -408,5 +527,158 @@ async function deleteWorkout(id) {
         alert("Workout deletion failed.");
 
     }
+
+}
+
+function hideAllSections() {
+
+    createWorkoutSection.style.display = "none";
+    myWorkoutsSection.style.display = "none";
+    todayWorkoutSection.style.display = "none";
+    loggerSection.style.display = "none";
+    historySection.style.display = "none";
+
+}
+
+// =====================================================
+// Save Workout Log
+// =====================================================
+
+if (saveLogButton) {
+
+    saveLogButton.addEventListener("click", async function (event) {
+
+        event.preventDefault();
+
+        const workoutId = document.getElementById("logWorkoutName").value;
+
+        // Validate workout selection
+        if (!workoutId) {
+
+            alert("Please select a workout.");
+
+            return;
+
+        }
+
+        const workoutDate = document.getElementById("logWorkoutDate").value;
+        const duration = document.getElementById("logDuration").value;
+        const notes = document.getElementById("logNotes").value;
+
+       const workoutLogRequest = {
+
+           userId: localStorage.getItem("userId"),
+
+           workoutId: workoutId,
+           workoutDate: workoutDate,
+           duration: duration,
+           notes: notes
+
+       };
+
+        try {
+
+            const response = await fetch("/api/workout-log", {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json"
+
+                },
+
+                body: JSON.stringify(workoutLogRequest)
+
+            });
+
+            const result = await response.text();
+
+            alert(result);
+
+            workoutLoggerForm.reset();
+
+            // Return the dropdown to the placeholder
+            document.getElementById("logWorkoutName").selectedIndex = 0;
+
+            loadWorkoutLogs();
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Could not save workout log.");
+
+        }
+
+    });
+
+}
+// =====================================================
+// Load Workout Logs
+// =====================================================
+
+async function loadWorkoutLogs() {
+
+    try {
+
+       const userId = localStorage.getItem("userId");
+
+       const response = await fetch("/api/workout-logs?userId=" + userId);
+
+       const workoutLogs = await response.json();
+
+       displayWorkoutLogs(workoutLogs);
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Could not load workout logs.");
+
+    }
+
+}
+
+// =====================================================
+// Display Workout Logs
+// =====================================================
+
+function displayWorkoutLogs(logs) {
+
+    const container = document.getElementById("workoutLogsContainer");
+
+    container.innerHTML = "";
+
+    logs.forEach(log => {
+
+        container.innerHTML += `
+
+            <div class="workout-item">
+
+                <h3>${log.workout.workoutName}</h3>
+
+                <p><strong>Date:</strong> ${log.workoutDate}</p>
+
+                <p><strong>Duration:</strong> ${log.duration} minutes</p>
+
+                <p><strong>Notes:</strong> ${log.notes}</p>
+
+            </div>
+
+        `;
+
+    });
+
+}
+function showComingSoonModal() {
+
+    document.getElementById("comingSoonModal").style.display = "block";
+
+}
+
+function closeComingSoonModal() {
+
+    document.getElementById("comingSoonModal").style.display = "none";
 
 }
