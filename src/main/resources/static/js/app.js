@@ -200,16 +200,22 @@ if (todayWorkoutButton) {
 
 }
 
-/*
- * Workout History button
- */
+// =====================================================
+// Workout History
+// =====================================================
 const workoutHistoryButton = document.getElementById("workoutHistoryButton");
 
 if (workoutHistoryButton) {
 
     workoutHistoryButton.addEventListener("click", function () {
 
-        showComingSoonModal();
+        home.style.display = "none";
+
+        dashboard.style.display = "flex";
+
+        showSection(historySection);
+
+        loadWorkoutHistory();
 
     });
 
@@ -671,14 +677,97 @@ function displayWorkoutLogs(logs) {
     });
 
 }
-function showComingSoonModal() {
-
-    document.getElementById("comingSoonModal").style.display = "block";
-
-}
 
 function closeComingSoonModal() {
 
     document.getElementById("comingSoonModal").style.display = "none";
+
+}
+
+async function loadWorkoutHistory() {
+
+    console.log("Loading workout history");
+
+    try {
+
+        const userId = localStorage.getItem("userId");
+
+        const response = await fetch("/api/workout-logs?userId=" + userId);
+
+        console.log(response);
+
+        const logs = await response.json();
+
+        console.log(logs);
+
+        displayWorkoutHistory(logs);
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+function displayWorkoutHistory(logs) {
+
+   console.log("Displaying history");
+
+    const historyContainer = document.getElementById("historyContainer");
+
+    historyContainer.innerHTML = "";
+
+    if (logs.length === 0) {
+
+        historyContainer.innerHTML = "<p>No workout history yet.</p>";
+
+        return;
+
+    }
+
+    logs.forEach(log => {
+
+        historyContainer.innerHTML += `
+
+            <div class="workout-item">
+
+                <h3>${log.workout.workoutName}</h3>
+
+                <p><strong>Date:</strong> ${log.workoutDate}</p>
+
+                <p><strong>Duration:</strong> ${log.duration} minutes</p>
+
+                <p><strong>Notes:</strong> ${log.notes}</p>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+/*
+ * Logout Button
+ */
+
+const logoutButton = document.getElementById("logoutButton");
+
+if (logoutButton) {
+
+    logoutButton.addEventListener("click", function () {
+
+        const confirmLogout = confirm("Are you sure you want to log out?");
+
+        if (confirmLogout) {
+
+            localStorage.clear();
+
+            window.location.href = "login.html";
+
+        }
+
+    });
 
 }

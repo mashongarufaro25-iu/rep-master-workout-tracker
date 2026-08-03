@@ -13,12 +13,27 @@
 <!-- Workout Card  -->
 
 <div class="container">
+    <!-- Header  -->
+    <header class="dashboard-header">
 
-    <!--  Header  -->
-    <header>
-        <h1>RepMaster</h1>
+        <div class="header-content">
 
-        <p>Train Smarter. Track Every Rep</p>
+            <div>
+
+                <h1>RepMaster</h1>
+
+                <p>Train Smarter. Track Every Rep</p>
+
+            </div>
+            <!-- Logout Button  -->
+            <button type="button" id="logoutButton">
+
+                🚪 Logout
+
+            </button>
+
+        </div>
+
     </header>
 
         <div class="home">
@@ -292,9 +307,14 @@
 
                 <section id="historySection" style="display:none;">
 
-                    <div class="dashboard-card" onclick="showComingSoonModal()">
-                        <h3>Workout History</h3>
-                        <p>Review your past training sessions.</p>
+                    <div class="workout-card">
+
+                        <h2>Workout History</h2>
+
+                        <p>Review all completed workouts.</p>
+
+                        <div id="historyContainer"></div>
+
                     </div>
 
                 </section>
