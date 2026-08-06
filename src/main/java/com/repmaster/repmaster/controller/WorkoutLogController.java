@@ -3,6 +3,7 @@ package com.repmaster.repmaster.controller;
 
 import com.repmaster.repmaster.dto.WorkoutLogRequest;
 import com.repmaster.repmaster.entity.WorkoutLog;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import com.repmaster.repmaster.service.WorkoutLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,8 @@ public class WorkoutLogController {
     @Autowired
     private WorkoutLogService workoutLogService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     /**
      * Saves a new workout log.
      *

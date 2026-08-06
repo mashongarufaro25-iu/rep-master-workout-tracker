@@ -7,7 +7,7 @@ import com.repmaster.repmaster.entity.Workout;
 import com.repmaster.repmaster.repository.WorkoutRepository;
 import java.util.List;
 import java.util.ArrayList;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +22,9 @@ public class WorkoutService {
     private final WorkoutRepository  workoutRepository;
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * Creates a WorkoutService.

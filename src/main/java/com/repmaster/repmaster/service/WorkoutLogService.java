@@ -9,6 +9,7 @@ import com.repmaster.repmaster.repository.WorkoutLogRepository;
 import com.repmaster.repmaster.repository.WorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -23,7 +24,8 @@ public class WorkoutLogService {
     private WorkoutLogRepository workoutLogRepository;
     @Autowired
     private WorkoutRepository workoutRepository;
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private UserRepository userRepository;
 

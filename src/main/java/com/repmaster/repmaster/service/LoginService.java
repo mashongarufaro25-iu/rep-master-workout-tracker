@@ -3,6 +3,7 @@ package com.repmaster.repmaster.service;
 import com.repmaster.repmaster.dto.LoginRequest;
 import com.repmaster.repmaster.entity.User;
 import com.repmaster.repmaster.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,14 +17,24 @@ public class LoginService {
      */
     private final UserRepository userRepository;
 
+    /**
+     * Compares encrypted passwords during login.
+     */
+    private final PasswordEncoder passwordEncoder;
+
 
     /**
      * Creates a LoginService with the required repository.
      *
      * @param userRepository Repository used to store users.
+     * @param passwordEncoder Used to verify encrypted passwords.
      */
-    public LoginService(UserRepository userRepository) {
+    public LoginService(UserRepository userRepository,
+                        PasswordEncoder passwordEncoder) {
+
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+
     }
 
     /**
@@ -39,9 +50,11 @@ public class LoginService {
             if (user == null) {
                 return null;
             }
+            if (passwordEncoder.matches(loginRequest.getPassword(),
+                user.getPassword())) {
 
-            if (loginRequest.getPassword().equals(user.getPassword())) {
-                return user;
+            return user;
+
             }
 
             return null;
