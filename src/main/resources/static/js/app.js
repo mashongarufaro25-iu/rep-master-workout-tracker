@@ -678,12 +678,23 @@ function displayWorkoutLogs(logs) {
 
 }
 
+/*
+ * Opens the Coming Soon modal.
+ */
+function showComingSoonModal() {
+
+    document.getElementById("comingSoonModal").style.display = "block";
+
+}
+
+/*
+ * Closes the Coming Soon modal.
+ */
 function closeComingSoonModal() {
 
     document.getElementById("comingSoonModal").style.display = "none";
 
 }
-
 async function loadWorkoutHistory() {
 
     console.log("Loading workout history");
