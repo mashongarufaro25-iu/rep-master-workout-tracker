@@ -68,7 +68,7 @@ if (loginButton) {
 
             console.error(error);
 
-            alert("Something went wrong.");
+           alert("Something went wrong.");
 
         }
 
@@ -121,13 +121,13 @@ if (registerButton) {
 
             const result = await response.text();
 
-            alert(result);
+           alert(result);
 
         } catch (error) {
 
             console.error(error);
 
-            alert("Registration failed.");
+           alert("Registration failed.");
 
         }
 
@@ -419,7 +419,7 @@ async function loadWorkoutNames() {
 
         console.error(error);
 
-        alert("Could not load workouts.");
+       alert("Could not load workouts.");
 
     }
 
@@ -530,7 +530,7 @@ async function deleteWorkout(id) {
 
         console.error(error);
 
-        alert("Workout deletion failed.");
+       alert("Workout deletion failed.");
 
     }
 
@@ -561,7 +561,7 @@ if (saveLogButton) {
         // Validate workout selection
         if (!workoutId) {
 
-            alert("Please select a workout.");
+           alert("Please select a workout.");
 
             return;
 
@@ -600,7 +600,7 @@ if (saveLogButton) {
 
             const result = await response.text();
 
-            alert(result);
+           alert(result);
 
             workoutLoggerForm.reset();
 
@@ -640,7 +640,7 @@ async function loadWorkoutLogs() {
 
         console.error(error);
 
-        alert("Could not load workout logs.");
+       alert("Could not load workout logs.");
 
     }
 

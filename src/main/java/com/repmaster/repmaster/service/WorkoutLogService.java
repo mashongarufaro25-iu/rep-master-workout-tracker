@@ -43,6 +43,28 @@ public class WorkoutLogService {
      */
     public String createWorkoutLog(WorkoutLogRequest request) {
 
+        // Validate selected workout
+        if (request.getWorkoutId() == null) {
+
+            return "Please select a workout.";
+
+        }
+        // Validate workout date
+        if (request.getWorkoutDate() == null
+                || request.getWorkoutDate().trim().isEmpty()) {
+
+            return "Workout date is required.";
+
+        }
+
+        // Validate workout duration
+        if (request.getDuration() == null
+                || request.getDuration() <= 0) {
+
+            return "Duration must be greater than zero.";
+
+        }
+
         // Find the selected workout
         Workout workout = workoutRepository.findById(request.getWorkoutId()).orElse(null);
 

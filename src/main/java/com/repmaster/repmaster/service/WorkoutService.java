@@ -49,6 +49,44 @@ public class WorkoutService {
             return "User not found.";
         }
 
+        // Validate workout name
+        if (request.getWorkoutName() == null
+                || request.getWorkoutName().trim().isEmpty()) {
+
+            return "Workout name is required.";
+
+        }
+
+        // Validate target muscle
+        if (request.getTargetMuscle() == null
+                || request.getTargetMuscle().trim().isEmpty()) {
+
+            return "Target muscle is required.";
+
+        }
+
+        // Validate exercises
+        if (request.getExercises() == null
+                || request.getExercises().trim().isEmpty()) {
+
+            return "Exercises are required.";
+
+        }
+
+        // Validate sets
+        if (request.getSets() == null || request.getSets() <= 0) {
+
+            return "Sets must be greater than zero.";
+
+        }
+
+        // Validate reps
+        if (request.getReps() == null || request.getReps() <= 0) {
+
+            return "Reps must be greater than zero.";
+
+        }
+
         Workout workout = new Workout();
 
         workout.setWorkoutName(request.getWorkoutName());

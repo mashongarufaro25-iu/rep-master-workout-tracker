@@ -174,5 +174,46 @@ button:hover {
     font-size: 16px;
 
 }
+/* ===========================
+   Notification
+=========================== */
+
+.notification {
+
+    position: fixed;
+
+    top: 20px;
+
+    right: 20px;
+
+    background: #1f4e79;
+
+    color: white;
+
+    padding: 15px 20px;
+
+    border-radius: 10px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+
+    opacity: 0;
+
+    transform: translateX(100%);
+
+    transition: all 0.4s ease;
+
+    z-index: 1000;
+
+    font-weight: bold;
+
+}
+
+.notification.show {
+
+    opacity: 1;
+
+    transform: translateX(0);
+
+}
 
 
