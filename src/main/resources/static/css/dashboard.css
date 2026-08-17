@@ -602,3 +602,37 @@ header p{
     position: relative;
 
 }
+
+.notification {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+
+    min-width: 300px;
+
+    padding: 15px 20px;
+
+    background-color: #1f4e79;
+    color: white;
+
+    border-radius: 10px;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+    z-index: 99999;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateX(120%);
+
+    transition: all 0.4s ease;
+}
+.notification.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}

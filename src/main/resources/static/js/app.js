@@ -5,7 +5,7 @@
  * of buttons and page interactions.
  */
 
-console.log("RepMaster loaded successfully.");
+
 
 /*
  * Login Button
@@ -46,9 +46,6 @@ if (loginButton) {
 
                 const user = await response.json();
 
-                console.log("User object:", user);
-                console.log("First name:", user.firstName);
-
                 localStorage.setItem("userId", user.id);
                 localStorage.setItem("userName", user.firstName);
 
@@ -58,7 +55,7 @@ if (loginButton) {
 
                 const message = await response.text();
 
-                alert(message);
+               showNotification(message);
 
             }
 
@@ -117,11 +114,13 @@ if (registerButton) {
 
                 body: JSON.stringify(registerRequest)
 
+
+
             });
 
             const result = await response.text();
 
-           alert(result);
+           showNotification(result);
 
         } catch (error) {
 
@@ -282,7 +281,6 @@ if (workoutLoggerButton) {
 const createWorkoutForm = document.getElementById("createWorkoutForm");
 const saveButton = document.getElementById("saveButton");
 
-
 if (saveButton) {
 
     saveButton.addEventListener("click", async function (event) {
@@ -336,7 +334,7 @@ if (saveButton) {
 
                const result = await response.text();
 
-               alert(result);
+               showNotification(result);
 
                createWorkoutForm.reset();
 
@@ -478,11 +476,9 @@ async function editWorkout(id) {
 
     currentWorkoutId = id;
 
-    console.log("Editing workout:", currentWorkoutId);
+
 
     const workout = workoutList.find(workout => workout.id === id);
-
-    console.log(workout);
 
     document.getElementById("workoutName").value = workout.workoutName;
     document.getElementById("targetMuscle").value = workout.targetMuscle;
@@ -521,7 +517,7 @@ async function deleteWorkout(id) {
 
         const result = await response.text();
 
-        alert(result);
+        showNotification(result);
 
         // Reload the workouts so the deleted workout disappears
         loadWorkouts();
@@ -600,7 +596,7 @@ if (saveLogButton) {
 
             const result = await response.text();
 
-           alert(result);
+           showNotification(result);
 
             workoutLoggerForm.reset();
 
@@ -697,19 +693,13 @@ function closeComingSoonModal() {
 }
 async function loadWorkoutHistory() {
 
-    console.log("Loading workout history");
-
     try {
 
         const userId = localStorage.getItem("userId");
 
         const response = await fetch("/api/workout-logs?userId=" + userId);
 
-        console.log(response);
-
         const logs = await response.json();
-
-        console.log(logs);
 
         displayWorkoutHistory(logs);
 
@@ -722,8 +712,6 @@ async function loadWorkoutHistory() {
 }
 
 function displayWorkoutHistory(logs) {
-
-   console.log("Displaying history");
 
     const historyContainer = document.getElementById("historyContainer");
 
@@ -757,6 +745,24 @@ function displayWorkoutHistory(logs) {
 
     });
 
+}
+
+/**
+ * Displays a notification message.
+ *
+ * @param message The message to display.
+ */
+function showNotification(message) {
+
+    const notification = document.getElementById("notification");
+
+    notification.textContent = message;
+
+    notification.classList.add("show");
+
+    setTimeout(function () {
+        notification.classList.remove("show");
+    }, 3000);
 }
 
 /*
