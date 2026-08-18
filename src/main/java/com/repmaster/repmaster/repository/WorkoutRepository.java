@@ -12,6 +12,12 @@ import java.util.List;
 @Repository
 public interface WorkoutRepository extends JpaRepository<Workout, Long> {
 
+    /**
+     * Finds all workouts that belong to a specific user.
+     *
+     * @param user the user whose workouts we want
+     * @return list of workouts for that user
+     */
     List<Workout> findByUser(User user);
 
 }

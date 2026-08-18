@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Handles the workouts.
+ * Handles workout actions such as creating, updating, deleting,
+ * and getting workouts.
  */
 @Service
 public class WorkoutService {
@@ -161,7 +162,7 @@ public class WorkoutService {
     }
     /**
      * Returns all saved workouts.
-     *
+     * @param userId the user's ID
      * @return List of workouts.
      */
     public List<Workout> getAllWorkouts(Long userId) {

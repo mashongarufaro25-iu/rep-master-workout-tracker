@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Handles the business logic for user login.
+ * Checks username and password.
  */
 @Service
 public class LoginService {
@@ -29,8 +30,7 @@ public class LoginService {
      * @param userRepository Repository used to store users.
      * @param passwordEncoder Used to verify encrypted passwords.
      */
-    public LoginService(UserRepository userRepository,
-                        PasswordEncoder passwordEncoder) {
+    public LoginService(UserRepository userRepository,PasswordEncoder passwordEncoder) {
 
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -45,18 +45,21 @@ public class LoginService {
      */
     public User login(LoginRequest loginRequest) {
 
+            // Find user by username
             User user = userRepository.findByUsername(loginRequest.getUsername());
-
+            // If no user found, login fails
             if (user == null) {
                 return null;
             }
+
+            // Check if password matches the stored password
             if (passwordEncoder.matches(loginRequest.getPassword(),
                 user.getPassword())) {
 
-            return user;
+            return user; // login success
 
             }
 
-            return null;
+            return null; // wrong password
         }
 }

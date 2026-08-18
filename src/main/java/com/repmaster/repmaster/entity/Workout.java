@@ -61,52 +61,55 @@ public class Workout {
     public Workout() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
+    //GETTERS
     public String getWorkoutName() {
         return workoutName;
-    }
-
-    public void setWorkoutName(String workoutName) {
-        this.workoutName = workoutName;
     }
 
     public String getTargetMuscle() {
         return targetMuscle;
     }
 
-    public void setTargetMuscle(String targetMuscle) {
-        this.targetMuscle = targetMuscle;
-    }
-
     public String getExercises() {
         return exercises;
-    }
-
-    public void setExercises(String exercises) {
-        this.exercises = exercises;
     }
 
     public Integer getSets() {
         return sets;
     }
 
-    public void setSets(Integer sets) {
-        this.sets = sets;
-    }
-
     public Integer getReps() {
         return reps;
     }
 
-    public void setReps(Integer reps) {
-        this.reps = reps;
-    }
-
     public User getUser() {
         return user;
+    }
+
+
+   //SETTERS
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public void setWorkoutName(String workoutName) {
+        this.workoutName = workoutName;
+    }
+
+    public void setTargetMuscle(String targetMuscle) {
+        this.targetMuscle = targetMuscle;
+    }
+
+    public void setExercises(String exercises) {
+        this.exercises = exercises;
+    }
+
+    public void setSets(Integer sets) {
+        this.sets = sets;
+    }
+
+    public void setReps(Integer reps) {
+        this.reps = reps;
     }
 
     public void setUser(User user) {

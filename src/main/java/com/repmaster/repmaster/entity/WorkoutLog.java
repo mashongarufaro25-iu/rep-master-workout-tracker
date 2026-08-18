@@ -7,16 +7,24 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 
+
 /**
  * Represents a workout log completed by the user.
+ * Stores the workout, the user, and details about the session.
  */
 @Entity
 public class WorkoutLog {
 
+    /**
+     * Unique ID for each workout log.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * The workout that this log belongs to.
+     */
     @ManyToOne
     @JoinColumn(name = "workout_id")
     private Workout workout;
@@ -28,67 +36,68 @@ public class WorkoutLog {
     @JoinColumn(name = "user_id")
     private User user;
 
+    /**
+     * Date when the workout was done.
+     */
     private String workoutDate;
 
+    /**
+     * Duration of the workout in minutes.
+     */
     private Integer duration;
 
+    /**
+     * Extra notes written by the user.
+     */
     private String notes;
 
+    /**
+     * Empty constructor needed by JPA.
+     */
     public WorkoutLog() {
     }
 
+
+    //GETTERS
     public User getUser() {
         return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Long getId() {
         return id;
     }
 
-    /**
-     * Returns the workout linked to this workout log.
-     *
-     * @return The associated workout.
-     */
     public Workout getWorkout() {
-
         return workout;
-
-    }
-
-    /**
-     * Sets the workout linked to this workout log.
-     *
-     * @param workout The workout to associate with this log.
-     */
-    public void setWorkout(Workout workout) {
-
-        this.workout = workout;
-
     }
 
     public String getWorkoutDate() {
         return workoutDate;
     }
 
-    public void setWorkoutDate(String workoutDate) {
-        this.workoutDate = workoutDate;
-    }
-
     public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(Integer duration) {
-        this.duration = duration;
-    }
-
     public String getNotes() {
         return notes;
+    }
+
+    //SETTERS
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setWorkout(Workout workout) {
+        this.workout = workout;
+    }
+
+    public void setWorkoutDate(String workoutDate) {
+        this.workoutDate = workoutDate;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 
     public void setNotes(String notes) {

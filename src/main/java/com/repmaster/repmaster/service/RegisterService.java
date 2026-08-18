@@ -30,10 +30,7 @@ public class RegisterService {
     public RegisterService(UserRepository userRepository,  PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-
     }
-
-
 
     /**
      * Registers a new user.
@@ -42,7 +39,6 @@ public class RegisterService {
      * @return Confirmation message.
      */
     public String register(RegisterRequest request) {
-
 
         // Check if the username already exists
         User existingUser = userRepository.findByUsername(request.getUsername());
@@ -59,18 +55,19 @@ public class RegisterService {
         if (existingEmail != null) {
 
             return "Email already exists.";
-
         }
-
+        // Create a new user object
         User user = new User();
 
+        // Sets user details from the request
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPhoneNumber(request.getPhoneNumber());
+        //Password is first encoded before saving
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-
+        // Save the new user in the database
         userRepository.save(user);
 
         return "Registration successful!";

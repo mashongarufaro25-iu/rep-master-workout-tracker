@@ -603,6 +603,10 @@ header p{
 
 }
 
+/* =============================================== */
+/* NOTIFICATION POPUP */
+/* =============================================== */
+/* Hidden notification box that slides in when needed */
 .notification {
     position: fixed !important;
     top: 20px !important;

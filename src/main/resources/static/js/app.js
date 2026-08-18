@@ -5,31 +5,33 @@
  * of buttons and page interactions.
  */
 
+/* =============================================== */
+/* LOGIN BUTTON */
+/* =============================================== */
 
-
-/*
- * Login Button
- */
+/* Get the login button from the page */
 const loginButton = document.getElementById("loginButton");
 
 if (loginButton) {
 
+    /* When the login button is clicked */
     loginButton.addEventListener("click", async function (event) {
 
-        event.preventDefault();
+        event.preventDefault(); // Stop form from refreshing the page
 
+        // Get username and password from inputs
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
+        // Build the login request object
         const loginRequest = {
-
             username: username,
             password: password
-
         };
 
         try {
 
+            // Send login request to backend
             const response = await fetch("/api/login", {
 
                 method: "POST",
@@ -37,29 +39,30 @@ if (loginButton) {
                 headers: {
                     "Content-Type": "application/json"
                 },
-
                 body: JSON.stringify(loginRequest)
 
             });
 
+            // If login is successful
             if (response.ok) {
 
                 const user = await response.json();
 
+                // Save user info for later use
                 localStorage.setItem("userId", user.id);
                 localStorage.setItem("userName", user.firstName);
 
+                // Go to dashboard
                 window.location.href = "dashboard.html";
 
             } else {
 
+                // Show error message from backend
                 const message = await response.text();
 
                showNotification(message);
 
             }
-
-
 
         } catch (error) {
 
@@ -73,17 +76,21 @@ if (loginButton) {
 
 }
 
-/*
- * Register button
- */
+/* =============================================== */
+/* REGISTER BUTTON */
+/* =============================================== */
+
+/* Get the register button */
 const registerButton = document.getElementById("registerButton");
 
 if (registerButton) {
 
+    /* When register button is clicked */
     registerButton.addEventListener("click", async function (event) {
 
-        event.preventDefault();
+        event.preventDefault(); // Stop page refresh
 
+         // Get all input values
         const firstName = document.getElementById("firstName").value;
         const lastName = document.getElementById("lastName").value;
         const username = document.getElementById("username").value;
@@ -91,8 +98,8 @@ if (registerButton) {
         const phoneNumber = document.getElementById("phoneNumber").value;
         const password = document.getElementById("password").value;
 
+        // Build the register request object
         const registerRequest = {
-
             firstName: firstName,
             lastName: lastName,
             username: username,
@@ -104,6 +111,7 @@ if (registerButton) {
 
         try {
 
+            // Send registration request
             const response = await fetch("/api/register", {
 
                 method: "POST",
@@ -114,13 +122,10 @@ if (registerButton) {
 
                 body: JSON.stringify(registerRequest)
 
-
-
             });
-
+            // Show backend message
             const result = await response.text();
-
-           showNotification(result);
+            showNotification(result);
 
         } catch (error) {
 
@@ -134,6 +139,11 @@ if (registerButton) {
 
 }
 
+/* =============================================== */
+/* PAGE SECTIONS AND BUTTONS */
+/* =============================================== */
+
+/* Get page sections and buttons */
 const home = document.querySelector(".home")
 const homeButton = document.getElementById("homeButton");
 const dashboard = document.querySelector(".dashboard");
@@ -147,52 +157,57 @@ const todayWorkoutSection = document.getElementById("todayWorkoutSection");
 const historySection = document.getElementById("historySection");
 const workoutLoggerForm = document.getElementById("workoutLoggerForm");
 const saveLogButton = document.getElementById("saveLogButton");
-let currentWorkoutId = null;
-let workoutList = [];
 
-/*
- * Create workout  button
- * And home button to allow return to home page
- */
+let currentWorkoutId = null;  // Stores selected workout ID
+let workoutList = []; // Stores all workouts
+
+
+/* =============================================== */
+/* CREATE WORKOUT BUTTON */
+/* =============================================== */
 if (createWorkoutButton) {
 
     createWorkoutButton.addEventListener("click", function () {
 
-        home.style.display = "none";
+        home.style.display = "none";  // Hide home page
+        dashboard.style.display = "flex";  // Show dashboard
 
-        dashboard.style.display = "flex";
-
-        showSection(createWorkoutSection);
+        showSection(createWorkoutSection); // Show create workout section
 
     });
 
 }
+
+/* =============================================== */
+/* MY WORKOUTS BUTTON */
+/* =============================================== */
 
 if (myWorkoutsButton) {
 
     myWorkoutsButton.addEventListener("click", function () {
 
-        home.style.display = "none";
+        home.style.display = "none"; // Hide home page
+        dashboard.style.display = "flex"; // Show dashboard
 
-        dashboard.style.display = "flex";
+        showSection(myWorkoutsSection); // Show workouts section
 
-        showSection(myWorkoutsSection);
-
-        loadWorkouts();
+        loadWorkouts(); // Load workouts from backend
 
     });
 
 
 }
-/*
- * Today's Workout button
- */
+/* =============================================== */
+/* TODAY'S WORKOUT BUTTON */
+/* =============================================== */
+
 const todayWorkoutButton = document.getElementById("todayWorkoutButton");
 
 if (todayWorkoutButton) {
 
     todayWorkoutButton.addEventListener("click", function () {
 
+        // Show a simple "coming soon" popup
         showComingSoonModal();
 
     });
@@ -208,53 +223,55 @@ if (workoutHistoryButton) {
 
     workoutHistoryButton.addEventListener("click", function () {
 
-        home.style.display = "none";
+        home.style.display = "none"; // Hide home page
+        dashboard.style.display = "flex";  // Show dashboard
 
-        dashboard.style.display = "flex";
+        showSection(historySection); // Show workout history section
 
-        showSection(historySection);
-
-        loadWorkoutHistory();
+        loadWorkoutHistory(); // Load history from backend
 
     });
 
 }
 
+// =====================================================
+// Workout Logger Button
+// =====================================================
 if (workoutLoggerButton) {
 
     workoutLoggerButton.addEventListener("click", function () {
 
-        home.style.display = "none";
+        home.style.display = "none"; // Hide home page
+        dashboard.style.display = "flex"; // Show dashboard
 
-        dashboard.style.display = "flex";
+        showSection(loggerSection); // Show workout logger section
 
-        showSection(loggerSection);
-
-        loadWorkoutNames();
-
-        loadWorkoutLogs();
+        loadWorkoutNames(); // Load workout names for dropdown
+        loadWorkoutLogs(); // Load previous logs
 
     });
 
 }
 
-
+// =====================================================
+// Home Button
+// =====================================================
  if (homeButton) {
 
      homeButton.addEventListener("click", function () {
 
-         dashboard.style.display = "none";
-
-         home.style.display = "flex";
+         dashboard.style.display = "none"; // Hide dashboard
+         home.style.display = "flex"; // Show home page
 
      });
 
  }
 
- /*
-  * Dashboard sections
-  */
+// =====================================================
+// Dashboard Section Controls
+// =====================================================
 
+/* Hides all dashboard sections */
  function hideAllSections() {
 
      createWorkoutSection.style.display = "none";
@@ -262,13 +279,17 @@ if (workoutLoggerButton) {
 
  }
 
+/* Shows one specific section */
  function showSection(section) {
 
-     hideAllSections();
-
-     section.style.display = "block";
+     hideAllSections(); // Hide everything first
+     section.style.display = "block"; // Show selected section
 
  }
+
+ // =====================================================
+ // Welcome Message
+ // =====================================================
  const userName = localStorage.getItem("userName");
 
  if (userName) {
@@ -278,6 +299,9 @@ if (workoutLoggerButton) {
 
  }
 
+// =====================================================
+// Create Workout Form
+// =====================================================
 const createWorkoutForm = document.getElementById("createWorkoutForm");
 const saveButton = document.getElementById("saveButton");
 
@@ -285,17 +309,16 @@ if (saveButton) {
 
     saveButton.addEventListener("click", async function (event) {
 
-            event.preventDefault();
+            event.preventDefault(); // Stop page refresh
 
+            // Get form values
             const workoutName = document.getElementById("workoutName").value;
             const targetMuscle = document.getElementById("targetMuscle").value;
             const exercises = document.getElementById("exercises").value;
             const sets = document.getElementById("sets").value;
             const reps = document.getElementById("reps").value;
 
-
-
-
+           // Build workout request object
            const workoutRequest = {
 
                userId: localStorage.getItem("userId"),
@@ -309,7 +332,7 @@ if (saveButton) {
            };
            try {
 
-               let url = "/api/workout";
+               let url = "/api/workout";  // Default: create new workout
                let method = "POST";
 
                // If editing an existing workout, use PUT instead of POST
@@ -319,7 +342,7 @@ if (saveButton) {
                    method = "PUT";
 
                }
-
+                // Send request to backend
                const response = await fetch(url, {
 
                    method: method,
@@ -334,17 +357,14 @@ if (saveButton) {
 
                const result = await response.text();
 
-               showNotification(result);
+               showNotification(result); // Show backend message
+               createWorkoutForm.reset(); // Clear form
+               currentWorkoutId = null; // Reset edit mode
 
-               createWorkoutForm.reset();
+               document.getElementById("saveButton").textContent = "Create Workout";  // Reset button text
 
-               currentWorkoutId = null;
-
-               document.getElementById("saveButton").textContent = "Create Workout";
-
-               loadWorkouts();
-
-               showSection(myWorkoutsSection);
+               loadWorkouts();  // Reload workouts
+               showSection(myWorkoutsSection);  // Go back to workouts list
 
            } catch (error) {
 
@@ -369,9 +389,9 @@ async function loadWorkouts() {
 
         const workouts = await response.json();
 
-        workoutList = workouts;
+        workoutList = workouts; // Save list globally
 
-        displayWorkouts(workouts);
+        displayWorkouts(workouts); // Show workouts on page
 
     } catch (error) {
 
@@ -397,12 +417,13 @@ async function loadWorkoutNames() {
 
         const workoutDropdown = document.getElementById("logWorkoutName");
 
+        // Default option
         workoutDropdown.innerHTML = `
             <option value="" selected disabled>
                 Select a workout
             </option>
         `;
-
+        // Add each workout to dropdown
         workouts.forEach(workout => {
 
             workoutDropdown.innerHTML += `
@@ -422,6 +443,7 @@ async function loadWorkoutNames() {
     }
 
 }
+
  // =====================================================
  // Display workouts on the page
  // =====================================================
@@ -430,10 +452,11 @@ async function loadWorkoutNames() {
 
      const workoutsContainer = document.getElementById("workoutsContainer");
 
-     workoutsContainer.innerHTML = "";
+     workoutsContainer.innerHTML = ""; // Clear previous workouts
 
      workouts.forEach(workout => {
 
+         // Add each workout as a card
          workoutsContainer.innerHTML += `
 
              <div class="workout-item">
@@ -474,20 +497,22 @@ async function loadWorkoutNames() {
 
 async function editWorkout(id) {
 
-    currentWorkoutId = id;
+    currentWorkoutId = id; // Store the workout ID being edited
 
-
-
+    // Find the workout in the list
     const workout = workoutList.find(workout => workout.id === id);
 
+    // Fill the form with existing values
     document.getElementById("workoutName").value = workout.workoutName;
     document.getElementById("targetMuscle").value = workout.targetMuscle;
     document.getElementById("exercises").value = workout.exercises;
     document.getElementById("sets").value = workout.sets;
     document.getElementById("reps").value = workout.reps;
 
+    // Show the create workout section
     showSection(createWorkoutSection);
 
+    // Change button text to "Update"
     document.getElementById("saveButton").textContent = "Update Workout";
 
 }
@@ -502,13 +527,11 @@ async function deleteWorkout(id) {
     const confirmed = confirm("Are you sure you want to delete this workout?");
 
     if (!confirmed) {
-
-        return;
-
+        return; // Stop if user cancels
     }
 
     try {
-
+         // Send delete request
         const response = await fetch(`/api/workout/${id}`, {
 
             method: "DELETE"
@@ -517,7 +540,7 @@ async function deleteWorkout(id) {
 
         const result = await response.text();
 
-        showNotification(result);
+        showNotification(result);  // Show backend message
 
         // Reload the workouts so the deleted workout disappears
         loadWorkouts();
@@ -532,6 +555,9 @@ async function deleteWorkout(id) {
 
 }
 
+// =====================================================
+// Hide all dashboard sections
+// =====================================================
 function hideAllSections() {
 
     createWorkoutSection.style.display = "none";
@@ -563,14 +589,14 @@ if (saveLogButton) {
 
         }
 
+        // Get log details
         const workoutDate = document.getElementById("logWorkoutDate").value;
         const duration = document.getElementById("logDuration").value;
         const notes = document.getElementById("logNotes").value;
 
+       // Build request object
        const workoutLogRequest = {
-
            userId: localStorage.getItem("userId"),
-
            workoutId: workoutId,
            workoutDate: workoutDate,
            duration: duration,
@@ -579,7 +605,7 @@ if (saveLogButton) {
        };
 
         try {
-
+            // Send log to backend
             const response = await fetch("/api/workout-log", {
 
                 method: "POST",
@@ -596,14 +622,14 @@ if (saveLogButton) {
 
             const result = await response.text();
 
-           showNotification(result);
+           showNotification(result);  // Show backend message
 
-            workoutLoggerForm.reset();
+            workoutLoggerForm.reset(); // Clear form
 
             // Return the dropdown to the placeholder
             document.getElementById("logWorkoutName").selectedIndex = 0;
 
-            loadWorkoutLogs();
+            loadWorkoutLogs(); // Refresh logs
 
         } catch (error) {
 
@@ -650,7 +676,7 @@ function displayWorkoutLogs(logs) {
 
     const container = document.getElementById("workoutLogsContainer");
 
-    container.innerHTML = "";
+    container.innerHTML = ""; // Clear previous logs
 
     logs.forEach(log => {
 
@@ -674,23 +700,21 @@ function displayWorkoutLogs(logs) {
 
 }
 
-/*
- * Opens the Coming Soon modal.
- */
+// =====================================================
+// Coming Soon Modal
+// =====================================================
 function showComingSoonModal() {
-
     document.getElementById("comingSoonModal").style.display = "block";
-
 }
-
-/*
- * Closes the Coming Soon modal.
- */
 function closeComingSoonModal() {
-
     document.getElementById("comingSoonModal").style.display = "none";
-
 }
+
+
+// =====================================================
+// Load Workout History
+// =====================================================
+
 async function loadWorkoutHistory() {
 
     try {
@@ -711,6 +735,9 @@ async function loadWorkoutHistory() {
 
 }
 
+// =====================================================
+// Display Workout History
+// =====================================================
 function displayWorkoutHistory(logs) {
 
     const historyContainer = document.getElementById("historyContainer");
@@ -719,7 +746,7 @@ function displayWorkoutHistory(logs) {
 
     if (logs.length === 0) {
 
-        historyContainer.innerHTML = "<p>No workout history yet.</p>";
+        historyContainer.innerHTML = "<p>No workout history yet.</p>"; // Clear previous history
 
         return;
 
@@ -747,27 +774,25 @@ function displayWorkoutHistory(logs) {
 
 }
 
-/**
- * Displays a notification message.
- *
- * @param message The message to display.
- */
+// =====================================================
+// Notification Popup
+// =====================================================
 function showNotification(message) {
 
     const notification = document.getElementById("notification");
 
-    notification.textContent = message;
+    notification.textContent = message; // Set message
 
-    notification.classList.add("show");
+    notification.classList.add("show");  // Slide in
 
     setTimeout(function () {
-        notification.classList.remove("show");
+        notification.classList.remove("show"); // Hide after 3s
     }, 3000);
 }
 
-/*
- * Logout Button
- */
+// =====================================================
+// Logout Button
+// =====================================================
 
 const logoutButton = document.getElementById("logoutButton");
 
@@ -779,9 +804,9 @@ if (logoutButton) {
 
         if (confirmLogout) {
 
-            localStorage.clear();
+            localStorage.clear(); // Remove saved user data
 
-            window.location.href = "login.html";
+            window.location.href = "login.html"; // Go to login page
 
         }
 

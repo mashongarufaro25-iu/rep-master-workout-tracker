@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     /**
-     * Redirects the user from the root URL
+     * Redirects the user from the root URL  ("/")
      * to the login page.
      *
      * @return Redirects to login.html
@@ -24,7 +24,7 @@ public class HomeController {
     @GetMapping("/")
     public String home() {
 
-        return "redirect:/login.html";
+        return "redirect:/login.html"; // send user to login page
 
     }
 

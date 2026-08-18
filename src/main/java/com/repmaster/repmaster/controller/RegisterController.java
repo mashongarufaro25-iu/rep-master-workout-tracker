@@ -37,8 +37,7 @@ public class RegisterController {
     @PostMapping("/register")
     public String register(@RequestBody RegisterRequest request) {
 
-        return registerService.register(request);
+        return registerService.register(request); // send data to the service
 
     }
-
 }

@@ -41,6 +41,8 @@ public class RegisterRequest {
      */
     public RegisterRequest() {
     }
+
+
    // Getters
     public String getFirstName() {
         return firstName;
@@ -65,8 +67,9 @@ public class RegisterRequest {
     public String getPassword() {
         return password;
     }
-    // Setters
 
+
+    // Setters
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }

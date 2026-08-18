@@ -8,105 +8,77 @@ package com.repmaster.repmaster.dto;
  */
 public class WorkoutLogRequest {
 
+    /**
+     * The ID of the workout being logged.
+     */
     private Long workoutId;
 
+    /**
+     * The ID of the user who created the log.
+     */
     private Long userId;
 
+    /**
+     * The date when the workout was done.
+     */
     private String workoutDate;
 
+    /**
+     * Duration of the workout in minutes.
+     */
     private Integer duration;
 
+    /**
+     * Extra notes written by the user.
+     */
     private String notes;
 
+    /**
+     * Empty constructor needed for JSON and Spring.
+     */
     public WorkoutLogRequest() {
     }
 
 
+    //GETTERS
+    public Long getUserId() {
 
-    /**
-     * Returns the selected user ID.
-     *
-     * @return The user ID.
-     */
-    public Long getUserId() {   return userId; }
+        return userId;
+    }
 
-    /**
-     * Sets the selected user ID.
-     *
-     * @param userId The user ID.
-     */
-    public void setUserId(Long userId) { this.userId = userId;}
-
-
-
-    /**
-     * Returns the selected workout ID.
-     *
-     * @return The workout ID.
-     */
     public Long getWorkoutId() {
         return workoutId;
     }
 
-    /**
-     * Sets the selected workout ID.
-     *
-     * @param workoutId The workout ID.
-     */
-    public void setWorkoutId(Long workoutId) {
-        this.workoutId = workoutId;
-    }
-
-    /**
-     * Returns the workout date.
-     *
-     * @return The workout date.
-     */
     public String getWorkoutDate() {
         return workoutDate;
     }
 
-    /**
-     * Sets the workout date.
-     *
-     * @param workoutDate The workout date.
-     */
-    public void setWorkoutDate(String workoutDate) {
-        this.workoutDate = workoutDate;
-    }
-
-    /**
-     * Returns the workout duration.
-     *
-     * @return Duration in minutes.
-     */
     public Integer getDuration() {
         return duration;
     }
 
-    /**
-     * Sets the workout duration.
-     *
-     * @param duration Duration in minutes.
-     */
-    public void setDuration(Integer duration) {
-        this.duration = duration;
-    }
-
-    /**
-     * Returns the workout notes.
-     *
-     * @return Workout notes.
-     */
     public String getNotes() {
         return notes;
     }
 
-    /**
-     * Sets the workout notes.
-     *
-     * @param notes Workout notes.
-     */
+
+    //SETTERS
+    public void setUserId(Long userId) { this.userId = userId;}
+
+    public void setWorkoutId(Long workoutId) {
+
+        this.workoutId = workoutId;
+    }
+
+    public void setWorkoutDate(String workoutDate) {
+        this.workoutDate = workoutDate;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
     public void setNotes(String notes) {
         this.notes = notes;
     }

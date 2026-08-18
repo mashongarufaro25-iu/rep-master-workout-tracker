@@ -110,6 +110,12 @@ public class WorkoutLogService {
 
     }
 
+    /**
+     * Returns all workout logs for a specific user.
+     *
+     * @param userId the user's ID
+     * @return list of workout logs for that user
+     */
     public List<WorkoutLog> getAllWorkoutLogs(Long userId) {
 
         User user = userRepository.findById(userId).orElse(null);

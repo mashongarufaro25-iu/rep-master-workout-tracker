@@ -44,7 +44,6 @@ public class WorkoutRequest {
 
 
     // Getters
-
     public String getWorkoutName() {
         return workoutName;
     }
@@ -65,14 +64,11 @@ public class WorkoutRequest {
         return reps;
     }
 
-    public Long getUserId() {  return userId; }
-
-
-
+    public Long getUserId() {
+            return userId;
+    }
 
     // Setters
-
-
     public void setWorkoutName(String workoutName) {
         this.workoutName = workoutName;
     }
@@ -93,7 +89,7 @@ public class WorkoutRequest {
         this.reps = reps;
     }
 
-    public void setUserId(Long userId) { this.userId = userId;}
-
-
+    public void setUserId(Long userId) {
+         this.userId = userId;
+    }
 }

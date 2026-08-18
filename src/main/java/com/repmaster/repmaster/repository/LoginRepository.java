@@ -19,9 +19,6 @@ public class LoginRepository {
      */
     public String login(String username, String password) {
 
-        System.out.println("Repository received username: " + username);
-        System.out.println("Repository received password: " + password);
-
         return "Login request received successfully!";
 
     }

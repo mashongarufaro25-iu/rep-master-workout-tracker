@@ -19,7 +19,7 @@ public class LoginController {
     private final LoginService loginService;
 
     /**
-     * Creates a LoginController with the required LoginService.
+     * Creates a LoginController.
      *
      * @param loginService The service that processes login requests.
      */
@@ -38,12 +38,14 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
 
+        // Try to log in the user
         User user = loginService.login(loginRequest);
 
+        // If login is correct, return the user
         if (user != null) {
             return ResponseEntity.ok(user);
         }
-
+        // If login fails, send an error message
         return ResponseEntity.badRequest().body("Invalid username or password.");
 
     }
