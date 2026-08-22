@@ -640,3 +640,73 @@ header p{
     visibility: visible;
     transform: translateX(0);
 }
+
+/* =====================================================
+   RESPONSIVE MOBILE LAYOUT
+   ===================================================== */
+
+@media (max-width: 760px) {
+
+    .dashboard {
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100vh - 100px);
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+        padding: 15px;
+    }
+
+    .sidebar h2 {
+        margin-bottom: 12px;
+    }
+
+    .sidebar button {
+        width: 100%;
+    }
+
+    .main-content {
+        width: 100%;
+        padding: 20px 15px;
+    }
+
+    .main-content section {
+        width: 100%;
+    }
+
+    .workout-card {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+        width: 100%;
+    }
+
+    .feature-card {
+        width: 100%;
+    }
+
+    .last-card {
+        grid-column: auto;
+    }
+
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    #logoutButton {
+        position: static;
+        margin-top: 10px;
+    }
+}
