@@ -159,6 +159,7 @@ const workoutLoggerForm = document.getElementById("workoutLoggerForm");
 const saveLogButton = document.getElementById("saveLogButton");
 
 let currentWorkoutId = null;  // Stores selected workout ID
+let currentWorkoutLogId = null;
 let workoutList = []; // Stores all workouts
 
 
@@ -605,15 +606,24 @@ if (saveLogButton) {
        };
 
         try {
-            // Send log to backend
-            const response = await fetch("/api/workout-log", {
 
-                method: "POST",
+            let url = "/api/workout-log";
+            let method = "POST";
+
+            // If editing an existing workout log, use PUT instead of POST
+            if (currentWorkoutLogId !== null) {
+
+                url = `/api/workout-log/${currentWorkoutLogId}`;
+                method = "PUT";
+
+            }
+
+            const response = await fetch(url, {
+
+                method: method,
 
                 headers: {
-
                     "Content-Type": "application/json"
-
                 },
 
                 body: JSON.stringify(workoutLogRequest)
@@ -622,20 +632,25 @@ if (saveLogButton) {
 
             const result = await response.text();
 
-           showNotification(result);  // Show backend message
+            showNotification(result);
 
-            workoutLoggerForm.reset(); // Clear form
+            workoutLoggerForm.reset();
 
-            // Return the dropdown to the placeholder
             document.getElementById("logWorkoutName").selectedIndex = 0;
 
-            loadWorkoutLogs(); // Refresh logs
+            // Reset editing mode
+            currentWorkoutLogId = null;
+
+            // Return button to normal state
+            document.getElementById("saveLogButton").textContent = "Save Workout Log";
+
+            loadWorkoutLogs();
 
         } catch (error) {
 
             console.error(error);
 
-            alert("Could not save workout log.");
+            showNotification("Could not save workout log.");
 
         }
 
@@ -746,7 +761,7 @@ function displayWorkoutHistory(logs) {
 
     if (logs.length === 0) {
 
-        historyContainer.innerHTML = "<p>No workout history yet.</p>"; // Clear previous history
+        historyContainer.innerHTML = "<p>No workout history yet.</p>";
 
         return;
 
@@ -764,7 +779,19 @@ function displayWorkoutHistory(logs) {
 
                 <p><strong>Duration:</strong> ${log.duration} minutes</p>
 
-                <p><strong>Notes:</strong> ${log.notes}</p>
+                <p><strong>Notes:</strong> ${log.notes || "No notes"}</p>
+
+                <div class="history-actions">
+
+                    <button onclick="editWorkoutLog(${log.id})">
+                        Edit
+                    </button>
+
+                    <button onclick="deleteWorkoutLog(${log.id})">
+                        Delete
+                    </button>
+
+                </div>
 
             </div>
 
@@ -773,6 +800,86 @@ function displayWorkoutHistory(logs) {
     });
 
 }
+
+
+// =====================================================
+// Edit Workout Log
+// =====================================================
+async function editWorkoutLog(logId) {
+
+    const response = await fetch(
+        `/api/workout-logs?userId=${localStorage.getItem("userId")}`
+    );
+
+    const logs = await response.json();
+
+    const log = logs.find(item => item.id === logId);
+
+    if (!log) {
+        showNotification("Workout log not found.");
+        return;
+    }
+
+    // Open the Workout Logger section
+    showSection(loggerSection);
+
+    // Load workouts into the dropdown first
+    await loadWorkoutNames();
+
+    // Now select the workout being edited
+    document.getElementById("logWorkoutName").value = log.workout.id;
+
+    // Fill the rest of the form
+    document.getElementById("logWorkoutDate").value = log.workoutDate;
+    document.getElementById("logDuration").value = log.duration;
+    document.getElementById("logNotes").value = log.notes || "";
+
+    // Change the button text
+    document.getElementById("saveLogButton").textContent = "Update Workout Log";
+
+    // Remember which log is being edited
+    currentWorkoutLogId = logId;
+}
+
+
+// =====================================================
+// Delete Workout Log
+// =====================================================
+async function deleteWorkoutLog(logId) {
+
+    const confirmed = confirm(
+        "Are you sure you want to delete this workout log?"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(`/api/workout-log/${logId}`, {
+
+            method: "DELETE"
+
+        });
+
+        const result = await response.text();
+
+        showNotification(result);
+
+        // Reload the workout history
+        loadWorkoutHistory();
+
+    } catch (error) {
+
+        console.error(error);
+
+        showNotification("Could not delete workout log.");
+
+    }
+
+}
+
 
 // =====================================================
 // Notification Popup

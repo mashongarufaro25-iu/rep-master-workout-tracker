@@ -5,6 +5,9 @@ import com.repmaster.repmaster.dto.WorkoutLogRequest;
 import com.repmaster.repmaster.entity.WorkoutLog;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.repmaster.repmaster.service.WorkoutLogService;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -44,6 +47,32 @@ public class WorkoutLogController {
 
         return workoutLogService.getAllWorkoutLogs(userId);
 
+    }
+
+    /**
+     * Updates an existing workout log.
+     *
+     * @param id The ID of the workout log to update.
+     * @param request The updated workout log details.
+     * @return A success or error message.
+     */
+    @PutMapping("/workout-log/{id}")
+    public String updateWorkoutLog( @PathVariable Long id, @RequestBody WorkoutLogRequest request) {
+
+        return workoutLogService.updateWorkoutLog(id, request);
+    }
+
+
+    /**
+     * Deletes an existing workout log.
+     *
+     * @param id The ID of the workout log to delete.
+     * @return A success or error message.
+     */
+    @DeleteMapping("/workout-log/{id}")
+    public String deleteWorkoutLog(@PathVariable Long id) {
+
+        return workoutLogService.deleteWorkoutLog(id);
     }
 
 }

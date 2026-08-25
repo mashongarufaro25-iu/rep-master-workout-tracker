@@ -58,6 +58,11 @@ public class WorkoutService {
 
         }
 
+        // Check for duplicate workout name
+        if (workoutRepository.existsByUserAndWorkoutName(user, request.getWorkoutName().trim())) {
+            return "A workout with this name already exists.";
+        }
+
         // Validate target muscle
         if (request.getTargetMuscle() == null
                 || request.getTargetMuscle().trim().isEmpty()) {
@@ -122,8 +127,15 @@ public class WorkoutService {
 
         }
 
+        // Check for duplicate workout name when editing
+        if (!workout.getWorkoutName().equalsIgnoreCase(updatedWorkout.getWorkoutName().trim())
+                && workoutRepository.existsByUserAndWorkoutName(workout.getUser(), updatedWorkout.getWorkoutName().trim())) {
+
+            return "A workout with this name already exists.";
+        }
+
         // Update the workout's name
-        workout.setWorkoutName(updatedWorkout.getWorkoutName());
+        workout.setWorkoutName(updatedWorkout.getWorkoutName().trim());
 
         // Update the target muscle
         workout.setTargetMuscle(updatedWorkout.getTargetMuscle());

@@ -20,4 +20,6 @@ public interface WorkoutRepository extends JpaRepository<Workout, Long> {
      */
     List<Workout> findByUser(User user);
 
+    boolean existsByUserAndWorkoutName(User user, String workoutName);
+
 }

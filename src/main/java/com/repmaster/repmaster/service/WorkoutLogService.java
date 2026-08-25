@@ -111,6 +111,75 @@ public class WorkoutLogService {
     }
 
     /**
+     * Updates an existing workout log.
+     *
+     * @param id The ID of the workout log to update.
+     * @param request The new workout log details.
+     * @return A success or error message.
+     */
+    public String updateWorkoutLog(Long id, WorkoutLogRequest request) {
+
+        // Find the existing workout log
+        WorkoutLog workoutLog = workoutLogRepository.findById(id).orElse(null);
+
+        if (workoutLog == null) {
+            return "Workout log not found.";
+        }
+
+        // Validate workout date
+        if (request.getWorkoutDate() == null
+                || request.getWorkoutDate().trim().isEmpty()) {
+
+            return "Workout date is required.";
+        }
+
+        // Validate workout duration
+        if (request.getDuration() == null
+                || request.getDuration() <= 0) {
+
+            return "Duration must be greater than zero.";
+        }
+
+        // Find the selected workout
+        Workout workout = workoutRepository.findById(request.getWorkoutId()).orElse(null);
+
+        if (workout == null) {
+            return "Workout not found.";
+        }
+
+        // Update the workout log
+        workoutLog.setWorkout(workout);
+        workoutLog.setWorkoutDate(request.getWorkoutDate());
+        workoutLog.setDuration(request.getDuration());
+        workoutLog.setNotes(request.getNotes());
+
+        // Save the updated log
+        workoutLogRepository.save(workoutLog);
+
+        return "Workout log updated successfully.";
+    }
+
+
+    /**
+     * Deletes an existing workout log.
+     *
+     * @param id The ID of the workout log to delete.
+     * @return A success or error message.
+     */
+    public String deleteWorkoutLog(Long id) {
+
+        WorkoutLog workoutLog = workoutLogRepository.findById(id).orElse(null);
+
+        if (workoutLog == null) {
+            return "Workout log not found.";
+        }
+
+        workoutLogRepository.deleteById(id);
+
+        return "Workout log deleted successfully.";
+    }
+
+    /**
      * Returns all workout logs for a specific user.
      *
      * @param userId the user's ID
