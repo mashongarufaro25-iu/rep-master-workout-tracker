@@ -710,3 +710,83 @@ header p{
         margin-top: 10px;
     }
 }
+
+
+/* =====================================================
+   Make form inputs bigger and easier to use
+   ===================================================== */
+input,
+select,
+textarea {
+    padding: 14px;
+    font-size: 16px;
+    min-height: 48px;
+    box-sizing: border-box;
+}
+
+
+/* =====================================================
+   Make buttons bigger
+   ===================================================== */
+button {
+    padding: 14px 20px;
+    font-size: 16px;
+    min-height: 48px;
+}
+
+
+/* =====================================================
+   Give the notes box more height
+   ===================================================== */
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* =====================================================
+   Make Create Workout form fill more space
+   ===================================================== */
+
+.workout-card {
+    max-width: 1000px;
+    padding: 40px;
+}
+
+/* Make all form fields taller */
+.workout-card input,
+.workout-card select,
+.workout-card textarea {
+    width: 100%;
+    min-height: 52px;
+    padding: 14px 16px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Make the labels a little larger */
+.workout-card label {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+/* Give each form section more breathing room */
+.workout-card form {
+    gap: 18px;
+}
+
+/* Bigger Create/Save buttons */
+.workout-card button {
+    width: 100%;
+    min-height: 54px;
+    padding: 14px 20px;
+    font-size: 17px;
+}
+
+/* Make the main headings slightly larger */
+.workout-card h2 {
+    font-size: 32px;
+}
+
+.workout-card p {
+    font-size: 16px;
+}
