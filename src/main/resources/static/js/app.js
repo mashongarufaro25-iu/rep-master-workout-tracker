@@ -289,16 +289,27 @@ if (workoutLoggerButton) {
  }
 
  // =====================================================
- // Welcome Message
+ // Dynamic Welcome Message
  // =====================================================
- const userName = localStorage.getItem("userName");
 
- if (userName) {
+const userName = localStorage.getItem("userName");
 
-     document.getElementById("welcomeMessage").textContent =
-         `Welcome back, ${userName}!`;
+if (userName) {
 
- }
+    const hour = new Date().getHours();
+    let greeting = "";
+
+    if (hour < 12) {
+        greeting = "Good morning";
+    } else if (hour < 18) {
+        greeting = "Good afternoon";
+    } else {
+        greeting = "Good evening";
+    }
+
+    document.getElementById("welcomeMessage").textContent =
+        `${greeting}, ${userName}!`;
+}
 
 // =====================================================
 // Create Workout Form
