@@ -348,12 +348,14 @@ if (saveButton) {
                let method = "POST";
 
                // If editing an existing workout, use PUT instead of POST
-               if (currentWorkoutId !== null) {
+             if (currentWorkoutId !== null) {
 
-                   url = `/api/workout/${currentWorkoutId}`;
-                   method = "PUT";
+                 const userId = localStorage.getItem("userId");
 
-               }
+                 url = `/api/workout/${currentWorkoutId}?userId=${userId}`;
+                 method = "PUT";
+
+             }
                 // Send request to backend
                const response = await fetch(url, {
 
@@ -544,11 +546,13 @@ async function deleteWorkout(id) {
 
     try {
          // Send delete request
-        const response = await fetch(`/api/workout/${id}`, {
+      const userId = localStorage.getItem("userId");
 
-            method: "DELETE"
+      const response = await fetch(`/api/workout/${id}?userId=${userId}`, {
 
-        });
+          method: "DELETE"
+
+      });
 
         const result = await response.text();
 
@@ -868,11 +872,14 @@ async function deleteWorkoutLog(logId) {
 
     try {
 
-        const response = await fetch(`/api/workout-log/${logId}`, {
+        const userId = localStorage.getItem("userId");
 
-            method: "DELETE"
-
-        });
+        const response = await fetch(
+            `/api/workout-log/${logId}?userId=${userId}`,
+            {
+                method: "DELETE"
+            }
+        );
 
         const result = await response.text();
 
@@ -890,7 +897,6 @@ async function deleteWorkoutLog(logId) {
     }
 
 }
-
 
 // =====================================================
 // Notification Popup

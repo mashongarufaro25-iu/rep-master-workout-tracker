@@ -82,6 +82,12 @@ public class WorkoutLogService {
             return "User not found.";
 
         }
+        // Make sure the selected workout belongs to this user
+        if (!workout.getUser().getId().equals(user.getId())) {
+
+            return "You are not allowed to log this workout.";
+
+        }
 
         // Create a new workout log
         WorkoutLog workoutLog = new WorkoutLog();
@@ -126,6 +132,18 @@ public class WorkoutLogService {
             return "Workout log not found.";
         }
 
+        // Find the logged-in user
+        User user = userRepository.findById(request.getUserId()).orElse(null);
+
+        if (user == null) {
+            return "User not found.";
+        }
+
+        // Make sure the log belongs to this user
+        if (!workoutLog.getUser().getId().equals(user.getId())) {
+            return "You are not allowed to edit this workout log.";
+        }
+
         // Validate workout date
         if (request.getWorkoutDate() == null
                 || request.getWorkoutDate().trim().isEmpty()) {
@@ -141,10 +159,17 @@ public class WorkoutLogService {
         }
 
         // Find the selected workout
-        Workout workout = workoutRepository.findById(request.getWorkoutId()).orElse(null);
+        Workout workout = workoutRepository
+                .findById(request.getWorkoutId())
+                .orElse(null);
 
         if (workout == null) {
             return "Workout not found.";
+        }
+
+        // Make sure the selected workout belongs to this user
+        if (!workout.getUser().getId().equals(user.getId())) {
+            return "You are not allowed to use this workout.";
         }
 
         // Update the workout log
@@ -166,15 +191,28 @@ public class WorkoutLogService {
      * @param id The ID of the workout log to delete.
      * @return A success or error message.
      */
-    public String deleteWorkoutLog(Long id) {
+    public String deleteWorkoutLog(Long id, Long userId) {
 
+        // Find the existing workout log
         WorkoutLog workoutLog = workoutLogRepository.findById(id).orElse(null);
 
         if (workoutLog == null) {
             return "Workout log not found.";
         }
 
-        workoutLogRepository.deleteById(id);
+        // Find the logged-in user
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user == null) {
+            return "User not found.";
+        }
+
+        // Make sure the log belongs to this user
+        if (!workoutLog.getUser().getId().equals(user.getId())) {
+            return "You are not allowed to delete this workout log.";
+        }
+
+        workoutLogRepository.delete(workoutLog);
 
         return "Workout log deleted successfully.";
     }

@@ -115,46 +115,46 @@ public class WorkoutService {
      * @param updatedWorkout The workout object containing the new values entered by the user.
      * @return A success message if the workout was updated, or an error message if the workout was not found.
      */
-    public String updateWorkout(Long id, Workout updatedWorkout) {
+    public String updateWorkout(Long id, Long userId, Workout updatedWorkout) {
 
-        // Search the database for the workout with the given ID
+        // Find the workout
         Workout workout = workoutRepository.findById(id).orElse(null);
 
-        // Check if the workout exists
         if (workout == null) {
-
             return "Workout not found";
-
         }
 
-        // Check for duplicate workout name when editing
+        // Find the user making the request
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user == null) {
+            return "User not found";
+        }
+
+        // Make sure the workout belongs to this user
+        if (!workout.getUser().getId().equals(user.getId())) {
+            return "You are not allowed to edit this workout.";
+        }
+
+        // Check for duplicate workout name
         if (!workout.getWorkoutName().equalsIgnoreCase(updatedWorkout.getWorkoutName().trim())
-                && workoutRepository.existsByUserAndWorkoutName(workout.getUser(), updatedWorkout.getWorkoutName().trim())) {
+                && workoutRepository.existsByUserAndWorkoutName(
+                user,
+                updatedWorkout.getWorkoutName().trim())) {
 
             return "A workout with this name already exists.";
         }
 
-        // Update the workout's name
+        // Update workout details
         workout.setWorkoutName(updatedWorkout.getWorkoutName().trim());
-
-        // Update the target muscle
         workout.setTargetMuscle(updatedWorkout.getTargetMuscle());
-
-        // Update the exercises
         workout.setExercises(updatedWorkout.getExercises());
-
-        // Update the number of sets
         workout.setSets(updatedWorkout.getSets());
-
-        // Update the number of repetitions
         workout.setReps(updatedWorkout.getReps());
 
-        // Save the updated workout back to the database
         workoutRepository.save(workout);
 
-        // Return a success message
         return "Workout updated successfully";
-
     }
 
     /**
@@ -163,14 +163,30 @@ public class WorkoutService {
      * @param id The ID of the workout to delete.
      * @return A success message if the workout was deleted successfully.
      */
-    public String deleteWorkout(Long id) {
+    public String deleteWorkout(Long id, Long userId) {
 
-        // Delete the workout with the given ID from the database
-        workoutRepository.deleteById(id);
+        // Find the workout
+        Workout workout = workoutRepository.findById(id).orElse(null);
 
-        // Return a success message
+        if (workout == null) {
+            return "Workout not found";
+        }
+
+        // Find the user making the request
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user == null) {
+            return "User not found";
+        }
+
+        // Make sure the workout belongs to this user
+        if (!workout.getUser().getId().equals(user.getId())) {
+            return "You are not allowed to delete this workout.";
+        }
+
+        workoutRepository.delete(workout);
+
         return "Workout deleted successfully";
-
     }
     /**
      * Returns all saved workouts.

@@ -70,9 +70,9 @@ public class WorkoutLogController {
      * @return A success or error message.
      */
     @DeleteMapping("/workout-log/{id}")
-    public String deleteWorkoutLog(@PathVariable Long id) {
+    public String deleteWorkoutLog(@PathVariable Long id,@RequestParam Long userId) {
 
-        return workoutLogService.deleteWorkoutLog(id);
+        return workoutLogService.deleteWorkoutLog(id, userId);
     }
 
 }

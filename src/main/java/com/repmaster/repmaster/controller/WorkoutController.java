@@ -58,10 +58,9 @@ public class WorkoutController {
      * @return returns updated workout.
      */
     @PutMapping("/workout/{id}")
-    public String updateWorkout(@PathVariable Long id, @RequestBody Workout workout) {
+    public String updateWorkout( @PathVariable Long id, @RequestParam Long userId, @RequestBody Workout workout) {
 
-        return workoutService.updateWorkout(id, workout);
-
+        return workoutService.updateWorkout(id, userId, workout);
     }
 
     /**
@@ -71,10 +70,9 @@ public class WorkoutController {
      * @return A success message after the workout has been deleted.
      */
     @DeleteMapping("/workout/{id}")
-    public String deleteWorkout(@PathVariable Long id) {
+    public String deleteWorkout( @PathVariable Long id, @RequestParam Long userId) {
 
-        return workoutService.deleteWorkout(id);
-
+        return workoutService.deleteWorkout(id, userId);
     }
 
     /**
