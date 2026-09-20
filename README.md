@@ -17,6 +17,7 @@ working Java web application using Spring Boot and MySQL.
 - User registration
 - User login
 - Personal user data and workout plans
+- Password encryption using BCrypt
 
 ### Workout Management
 - Create workout plans
@@ -24,6 +25,7 @@ working Java web application using Spring Boot and MySQL.
 - Edit existing workouts
 - Delete workouts
 - Store workout name, target muscle, exercises, sets and reps
+- Prevent duplicate workout names for the same user
 
 ### Workout Logger
 - Select a saved workout
@@ -35,6 +37,8 @@ working Java web application using Spring Boot and MySQL.
 ### Workout History
 - View previously saved workout logs
 - Review the date, duration and notes of completed workouts
+- Edit saved workout logs
+- Delete saved workout logs
 
 ### Responsive Design
 - Desktop layout
@@ -71,7 +75,6 @@ working Java web application using Spring Boot and MySQL.
 
 ---
 
-
 ## Dynamic Functionality
 
 The main dynamic features are:
@@ -79,7 +82,8 @@ The main dynamic features are:
 ### User Registration and Login
 
 Users can create an account and log in to the application. After login, the
-dashboard displays the name of the logged-in user and greets them according to time of day
+dashboard displays the name of the logged-in user and greets them according to
+the time of day.
 
 The application uses the user's ID to connect their workouts and workout logs
 to their account.
@@ -95,7 +99,6 @@ Users can:
 - View saved workouts
 - Edit a workout
 - Delete a workout
-
 
 ### Unique Workout Names
 
@@ -146,6 +149,8 @@ Users can delete a saved workout log from Workout History.
 After confirmation, the log is deleted from the database and the history is
 refreshed to show the updated information.
 
+---
+
 ## Input Validation
 
 The application performs validation before saving data.
@@ -162,7 +167,26 @@ Examples include:
 - A workout must be selected when creating a workout log.
 - Workout names must be unique for each user.
 
-### Frontend and Backend Communication
+---
+
+## Security and User Data Protection
+
+The application includes checks to ensure that users can only modify and
+delete their own workout data.
+
+Before updating or deleting a workout, the backend checks that the workout
+belongs to the requesting user.
+
+The same ownership checks are applied to workout logs.
+
+User passwords are encrypted using BCrypt before being stored.
+
+Database credentials are not stored directly in the project source code.
+The database username and password are provided through environment variables.
+
+---
+
+## Frontend and Backend Communication
 
 The frontend uses JavaScript and the Fetch API to communicate with the Spring
 Boot REST API.
@@ -177,7 +201,9 @@ The application uses different HTTP methods depending on the action:
 This allows the user interface to interact with the stored data without
 having to manually change the database.
 
-### Database Persistence
+---
+
+## Database Persistence
 
 Workout plans and workout logs are stored in MySQL.
 
@@ -185,88 +211,88 @@ This means that information is not only displayed temporarily on the webpage.
 When a user refreshes the page or returns to the application, their saved
 data can be retrieved from the database.
 
-### Responsive Interaction
+---
+
+## Responsive Interaction
 
 The application also responds to different screen sizes. The desktop and
 mobile layouts use responsive CSS so that navigation, forms and workout cards
 remain usable on smaller screens.
 
-### Prerequisites
+---
+
+## Prerequisites
 
 Before running RepMaster, make sure the following are installed:
+
 - Java JDK 21
 - MySQL Server
 - MySQL Workbench
 - IntelliJ IDEA or another Java IDE
 - Git
+  Running the Application
+  Using IntelliJ IDEA
+  Clone or download the repository.
+  Open the project in IntelliJ IDEA.
+  Make sure Java 21 is selected as the project SDK.
+  Make sure MySQL Server is running.
+  Make sure the repmaster database has been created.
+  Set the DB_USERNAME and DB_PASSWORD environment variables.
+  Run RepMasterApplication.java.
+  Open the application in a browser.
+
+The application is available at:
+
+http://localhost:8080
 The application uses Java 21 and Spring Boot.
+
+---
+##Application Structure
+
+The project follows a layered Spring Boot structure.
+
+The backend follows a layered Spring Boot structure:
+
+Controller – receives HTTP requests from the frontend.
+Service – contains validation and application logic.
+Repository – communicates with the MySQL database through Spring Data JPA.
+Entity – represents database objects such as users, workouts and workout logs.
+DTO – transfers data between the frontend and backend
+
+Frontend
+|
+| HTTP requests / JSON
+v
+Spring Boot REST API
+|
++-- Controller
+|
++-- Service
+|
++-- Repository
+|
++-- Entity / DTO
+|
+v
+MySQL Database
+---
 
 ## Database Setup
 
 RepMaster uses MySQL to store users, workout plans and workout logs.
-1. Start MySQL Server.
-2. Open MySQL Workbench.
-3. Create the database used by the application:
 
+### 1. Start MySQL Server
 
+Make sure MySQL Server is running.
 
-## Running the Application
+### 2. Open MySQL Workbench
 
-### Using IntelliJ IDEA
+Open MySQL Workbench and connect to your MySQL Server.
 
-1. Clone or download the repository.
-2. Open the project in IntelliJ IDEA.
-3. Make sure Java 21 is selected as the project SDK.
-4. Make sure MySQL Server is running.
-5. Check the database connection in `application.properties`.
-6. Run `RepMasterApplication.java`.
-7. Open the application in a browser.
+### 3. Create the database
 
-The application is available at:
+Create the database used by the application:
 
-`http://localhost:8080`
-## Application Structure
-
-## Backend Structure
-
-The backend follows a layered Spring Boot structure:
-
-- **Controller** – receives HTTP requests from the frontend.
-- **Service** – contains validation and application logic.
-- **Repository** – communicates with the MySQL database through Spring Data JPA.
-- **Entity** – represents database objects such as users, workouts and workout logs.
-- **DTO** – transfers data between the frontend and backend.
-
-Example request flow:
-
-```text
-Frontend
-   |
-   | HTTP requests / JSON
-   v
-Spring Boot REST API
-   |
-   +-- Controller
-   |
-   +-- Service
-   |
-   +-- Repository
-   |
-   +-- Entity / DTO
-   |
-   v
-MySQL Database
-
-## Backend Structure
-
-The backend follows a layered Spring Boot structure:
-
-- **Controller** – receives HTTP requests from the frontend.
-- **Service** – contains validation and application logic.
-- **Repository** – communicates with the MySQL database through Spring Data JPA.
-- **Entity** – represents database objects such as users, workouts and workout logs.
-- **DTO** – transfers data between the frontend and backend.
-
-Example request flow:
-
-Browser → Controller → Service → Repository → MySQL
+```sql
+CREATE DATABASE repmaster;
+---
